@@ -9,15 +9,12 @@ const pool = mysql.createPool(creds);
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true })); // Middleware for parsing form data
 
-// Render homepage with menu selection
 app.post('/post', async (req, res) => {
     const body = req.body;
-    let test;
-
     const [rows, fields] = await pool.execute('INSERT INTO members (psid, email, password, first, last, discord) VALUES (?, ?, ?, ?, ?, ?)', [
         body.psid, body.email, body.password, body.first, body.last, body.discord
     ]);
-
+    res.json({"Status": "Success"});
 });
 
 app.get('/', async (req, res) => {
