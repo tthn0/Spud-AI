@@ -39,7 +39,6 @@ router.post("/log", async (req, res) => {
 
 router.get("/log", async (req, res) => {
   const psid = req.query.psid;
-
   const sql = psid
     ? "SELECT * FROM log INNER JOIN members ON log.psid = members.psid WHERE log.psid = ?"
     : "SELECT * FROM log INNER JOIN members ON log.psid = members.psid";
@@ -55,7 +54,6 @@ router.get("/log", async (req, res) => {
 
 router.post("/members", async (req, res) => {
   const { psid, email, password, first, last, discord } = req.body;
-
   try {
     await query(
       "INSERT INTO members (psid, email, password, first, last, discord) VALUES (?, ?, ?, ?, ?, ?)",
@@ -69,7 +67,6 @@ router.post("/members", async (req, res) => {
 
 router.get("/members", async (req, res) => {
   const psid = req.query.psid;
-
   const sql = psid
     ? "SELECT * FROM members WHERE psid = ?"
     : "SELECT * FROM members";

@@ -15,7 +15,11 @@ function buildTableRows(data) {
       return `<tr>
         <td><input type="checkbox" /></td>
         <td>${row.timestamp}</td>
-        <td>${row.first} ${row.last}, ${row.psid}</td>
+        <td>
+          <strong>${row.first} ${row.last}</strong>
+          <br />
+          <span id=psid>${row.psid}</span>
+        </td>
         <td>${row.role}</td>
         <td>${row.email}</td>
         <td>${row.discord}</td>

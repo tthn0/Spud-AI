@@ -1,12 +1,16 @@
 # Winter Break 2023 Project
 
-[Todo later]
+### Todo
 
-- Exclude creds from commits and remove from commit history
+- Include `creds.json` in `.gitignore` and remove from commit history
 - Backup database
 - Document the API
 - Check for authorization before interacting with API
-- ReactJS
+- Use ReactJS components
 
-`cd website`
-`nodemon .`
+### To run:
+
+```bash
+cd website
+nodemon .
+```
