@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const mysql = require("mysql2/promise");
 
+const mysql = require("mysql2/promise");
 const creds = require("../config/creds.json");
 const pool = mysql.createPool(creds);
 
@@ -18,6 +18,28 @@ router.post("/log", async (req, res) => {
     ])
     .then(([rows, fields]) => {
       handleResponse(res, "Successfully logged a member", 200);
+    })
+    .catch((err) => {
+      handleResponse(res, err.message, 500);
+    });
+});
+
+router.get("/log", async (req, res) => {
+  // Todo: check for authorization
+  const psid = req.query.psid;
+
+  let sql = psid ? "SELECT * FROM log WHERE psid = ?" : "SELECT * FROM log";
+  let params = psid ? [psid] : [];
+
+  pool
+    .execute(sql, params)
+    .then(([rows, fields]) => {
+      if (rows.length > 0) {
+        res.setHeader("Content-Type", "application/json");
+        res.send(JSON.stringify(rows, null, 2));
+      } else {
+        handleResponse(res, "No logs found", 200);
+      }
     })
     .catch((err) => {
       handleResponse(res, err.message, 500);
