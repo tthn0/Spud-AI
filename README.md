@@ -4,4 +4,9 @@
 
 - Exclude creds from commits and remove from commit history
 - Backup database
-- Foreign keys
+- Document the API
+- Check for authorization before interacting with API
+- ReactJS
+
+`cd website`
+`nodemon .`

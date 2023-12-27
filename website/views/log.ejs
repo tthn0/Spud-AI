@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log</title>
+    <style>
+      /* Box sizing rules */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      /* Remove default padding */
+      ul[class],
+      ol[class] {
+        padding: 0;
+      }
+
+      /* Remove default margin */
+      body,
+      h1,
+      h2,
+      h3,
+      h4,
+      p,
+      ul[class],
+      ol[class],
+      li,
+      figure,
+      figcaption,
+      blockquote,
+      dl,
+      dd {
+        margin: 0;
+      }
+
+      /* Set core body defaults */
+      body {
+        min-height: 100vh;
+        scroll-behavior: smooth;
+        text-rendering: optimizeSpeed;
+        line-height: 1.5;
+      }
+
+      /* Remove list styles on ul, ol elements with a class attribute */
+      ul[class],
+      ol[class] {
+        list-style: none;
+      }
+
+      /* A elements that don't have a class get default styles */
+      a:not([class]) {
+        text-decoration-skip-ink: auto;
+      }
+
+      /* Make images easier to work with */
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      /* Natural flow and rhythm in articles by default */
+      article > * + * {
+        margin-top: 1em;
+      }
+
+      /* Inherit fonts for inputs and buttons */
+      input,
+      button,
+      textarea,
+      select {
+        font: inherit;
+      }
+
+      /* Remove all animations and transitions for people that prefer not to see them */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid;
+      }
+      table {
+        margin: 0 auto;
+        border-collapse: collapse;
+      }
+      tr:nth-child(even) {
+        background-color: Lightgreen;
+      }
+      tr:nth-child(odd) {
+        background-color: lightblue;
+      }
+      td,
+      th {
+        padding: 5px 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>Check</th>
+        <th>Timestamp</th>
+        <th>User</th>
+        <th>Role</th>
+        <th>Email</th>
+        <th>Discord</th>
+      </tr>
+      <!-- <tr>
+        <td>
+          <input type="checkbox" />
+        </td>
+        <td>2023-12-23 19:38</td>
+        <td>Thomas Nguyen</td>
+        <td>Non-Member</td>
+        <td>thomas@nguyen.com</td>
+        <td>tthn</td>
+      </tr> -->
+      <%- tableRows %>
+    </table>
+  </body>
+</html>
