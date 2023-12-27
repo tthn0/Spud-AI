@@ -6,7 +6,7 @@
 - Backup database
 - Document the API
 - Check for authorization before interacting with API
-- Use ReactJS components
+- MVC
 
 ### To run:
 

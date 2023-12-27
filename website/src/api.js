@@ -36,7 +36,7 @@ router.post("/log", async (req, res) => {
     handleResponse(res, err, 500);
   }
 });
-
+// Fixme with /log by itself. Make sure /:id also handles the query from python + browser
 router.get("/log", async (req, res) => {
   const psid = req.query.psid;
   const sql = psid
