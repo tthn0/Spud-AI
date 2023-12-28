@@ -31,12 +31,40 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div
+        class="collapse navbar-collapse justify-content-center"
+        id="navbarNavAltMarkup"
+      >
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="#"
-            >Home <span class="sr-only">(current)</span></a
+          <a class="nav-item nav-link mr-4" href="#"
+            ><i class="fa-solid fa-house mr-1"></i> Home</a
           >
-          <a class="nav-item nav-link active" href="#">Register</a>
+          <a class="nav-item nav-link mr-4" href="#"
+            ><i class="fa-solid fa-chart-pie mr-1"></i> Logs</a
+          >
+          <div class="nav-item dropdown mr-4">
+            <a
+              class="nav-link dropdown-toggle active"
+              href="#"
+              id="navbarDropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="fa-solid fa-cube mr-1"></i> Register<span
+                class="sr-only"
+                >(current)</span
+              >
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </div>
+          <a class="nav-link" href="#"
+            ><i class="fa-solid fa-gear mr-1"></i> Settings</a
+          >
         </div>
       </div>
     </nav>
@@ -45,63 +73,61 @@
       <div class="centered">
         <h1>REGISTER</h1>
         <form method="POST" action="/api/members">
-          <div class="input-icons">
-            <i class="fa-solid fa-address-card mr-2"></i>
-            <input
-              class="mb-2 mt-2"
-              type="text"
-              name="psid"
-              value=""
-              placeholder="PSID"
-            />
-            <br />
-            <i class="fa-solid fa-envelope mr-2"></i>
-            <input
-              class="mb-2"
-              type="email"
-              name="email"
-              value=""
-              placeholder="Email"
-            />
-            <br />
-            <i class="fa-solid fa-lock mr-2"></i>
-            <input
-              class="mb-2"
-              type="password"
-              name="password"
-              value=""
-              placeholder="Password"
-            />
-            <br />
-            <i class="fa-solid fa-user mr-2"></i>
-            <input
-              class="mb-2"
-              type="text"
-              name="first"
-              value=""
-              placeholder="First"
-            />
-            <br />
-            <i class="fa-solid fa-user mr-2"></i>
-            <input
-              class="mb-2"
-              type="text"
-              name="last"
-              value=""
-              placeholder="Last"
-            />
-            <br />
-            <i class="fa-brands fa-discord mr-2"></i>
-            <input
-              class="mb-4"
-              type="text"
-              name="discord"
-              value=""
-              placeholder="Discord Username"
-            />
-            <br />
-            <input type="submit" /> <br />
-          </div>
+          <i class="fa-solid fa-address-card mr-2"></i>
+          <input
+            class="mb-2 mt-2"
+            type="text"
+            name="psid"
+            value=""
+            placeholder="PSID"
+          />
+          <br />
+          <i class="fa-solid fa-envelope mr-2"></i>
+          <input
+            class="mb-2"
+            type="email"
+            name="email"
+            value=""
+            placeholder="Email"
+          />
+          <br />
+          <i class="fa-solid fa-lock mr-2"></i>
+          <input
+            class="mb-2"
+            type="password"
+            name="password"
+            value=""
+            placeholder="Password"
+          />
+          <br />
+          <i class="fa-solid fa-user mr-2"></i>
+          <input
+            class="mb-2"
+            type="text"
+            name="first"
+            value=""
+            placeholder="First"
+          />
+          <br />
+          <i class="fa-solid fa-user mr-2"></i>
+          <input
+            class="mb-2"
+            type="text"
+            name="last"
+            value=""
+            placeholder="Last"
+          />
+          <br />
+          <i class="fa-brands fa-discord mr-2"></i>
+          <input
+            class="mb-4"
+            type="text"
+            name="discord"
+            value=""
+            placeholder="Discord Username"
+          />
+          <br />
+          <input type="submit" /> <br />
         </form>
       </div>
     </div>
