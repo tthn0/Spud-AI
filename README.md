@@ -1,7 +1,17 @@
 # Winter Break 2023 Project
 
-[Todo later]
+### Todo
 
-- Exclude creds from commits and remove from commit history
+- Include `creds.json` in `.gitignore` and remove from commit history
 - Backup database
-- Foreign keys
+- Document the API
+- Check for authorization before interacting with API
+- Use sebastian's database instead
+- Fix alignment of checkmarks in `/log`
+
+### To run:
+
+```bash
+cd website
+nodemon .
+```
