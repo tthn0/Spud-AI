@@ -10,75 +10,95 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <script
+      src="https://kit.fontawesome.com/e6a4cb6747.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="css/register.css" />
   </head>
 
   <body>
-    <nav class="navbar navbar-custom">
-      <a class="navbar-brand" href="#">Navbar</a>
-    </nav>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col mt-5">
-          <h1>Login</h1>
-          <form method="POST" action="/api/members">
-            <input
-              class="mb-1 mt-2"
-              type="text"
-              name="psid"
-              value=""
-              placeholder="PSID"
-            />
-            <br />
-            <input
-              class="mb-1"
-              type="email"
-              name="email"
-              value=""
-              placeholder="Email"
-            />
-            <br />
-            <input
-              class="mb-1"
-              type="password"
-              name="password"
-              value=""
-              placeholder="Password"
-            />
-            <br />
-            <input
-              class="mb-1"
-              type="text"
-              name="first"
-              value=""
-              placeholder="First"
-            />
-            <br />
-            <input
-              class="mb-1"
-              type="text"
-              name="last"
-              value=""
-              placeholder="Last"
-            />
-            <br />
-            <input
-              class="mb-3"
-              type="text"
-              name="discord"
-              value=""
-              placeholder="Discord Username"
-            />
-            <br />
-            <input type="submit" /> <br />
-          </form>
-        </div>
-        <div class="col d-none d-md-block">
-          <div class="gradient"></div>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <a class="navbar-brand" href="#">IonAI</a>
+      <button
+        class="navbar-toggler ml-auto custom-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="#"
+            >Home <span class="sr-only">(current)</span></a
+          >
+          <a class="nav-item nav-link" href="#">Register</a>
         </div>
       </div>
+    </nav>
+
+    <div class="split left">
+      <div class="centered">
+        <h1>REGISTER</h1>
+        <form method="POST" action="/api/members">
+          <input
+            class="mb-2 mt-2"
+            type="text"
+            name="psid"
+            value=""
+            placeholder="PSID"
+          />
+          <br />
+          <input
+            class="mb-2"
+            type="email"
+            name="email"
+            value=""
+            placeholder="Email"
+          />
+          <br />
+          <input
+            class="mb-2"
+            type="password"
+            name="password"
+            value=""
+            placeholder="Password"
+          />
+          <br />
+          <input
+            class="mb-2"
+            type="text"
+            name="first"
+            value=""
+            placeholder="First"
+          />
+          <br />
+          <input
+            class="mb-2"
+            type="text"
+            name="last"
+            value=""
+            placeholder="Last"
+          />
+          <br />
+          <input
+            class="mb-4"
+            type="text"
+            name="discord"
+            value=""
+            placeholder="Discord Username"
+          />
+          <br />
+          <input type="submit" /> <br />
+        </form>
+      </div>
     </div>
+
+    <div class="split right"></div>
 
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
