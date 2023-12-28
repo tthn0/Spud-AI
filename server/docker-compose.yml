@@ -1,4 +1,26 @@
 version: "3.3"
+
 services:
+  api:
+    build: ./python
+    ports:
+      - 8085:8085
+    environment:
+      DB_URL: db
+    depends_on:
+      - db
   db:
-    image:  mysql
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: js882XlMI2
+      MYSQL_USER: sebastian
+      MYSQL_PASSWORD: js882XlMI2
+      MYSQL_DATABASE: winterion
+    volumes:
+      - my-db:/var/lib/mysql
+
+volumes:
+  my-db:
