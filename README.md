@@ -6,7 +6,8 @@
 - Backup database
 - Document the API
 - Check for authorization before interacting with API
-- MVC
+- Use sebastian's database instead
+- Fix alignment of checkmarks in `/log`
 
 ### To run:
 

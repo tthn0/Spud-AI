@@ -14,9 +14,14 @@ import requests
 #     },
 # )
 
+# r = requests.post(
+#     "http://localhost:8000/api/log",
+#     data={"psid": 2204169},
+# )
+
 r = requests.post(
     "http://localhost:8000/api/log",
-    data={"psid": 2204169},
+    data={"psid": 123},
 )
 
 # r = requests.get(
