@@ -45,60 +45,68 @@
       <div class="centered">
         <h1>REGISTER</h1>
         <form method="POST" action="/api/members">
-          <input
-            class="mb-2 mt-2"
-            type="text"
-            name="psid"
-            value=""
-            placeholder="PSID"
-          />
-          <br />
-          <input
-            class="mb-2"
-            type="email"
-            name="email"
-            value=""
-            placeholder="Email"
-          />
-          <br />
-          <input
-            class="mb-2"
-            type="password"
-            name="password"
-            value=""
-            placeholder="Password"
-          />
-          <br />
-          <input
-            class="mb-2"
-            type="text"
-            name="first"
-            value=""
-            placeholder="First"
-          />
-          <br />
-          <input
-            class="mb-2"
-            type="text"
-            name="last"
-            value=""
-            placeholder="Last"
-          />
-          <br />
-          <input
-            class="mb-4"
-            type="text"
-            name="discord"
-            value=""
-            placeholder="Discord Username"
-          />
-          <br />
-          <input type="submit" /> <br />
+          <div class="input-icons">
+            <i class="fa-solid fa-address-card mr-2"></i>
+            <input
+              class="mb-2 mt-2"
+              type="text"
+              name="psid"
+              value=""
+              placeholder="PSID"
+            />
+            <br />
+            <i class="fa-solid fa-envelope mr-2"></i>
+            <input
+              class="mb-2"
+              type="email"
+              name="email"
+              value=""
+              placeholder="Email"
+            />
+            <br />
+            <i class="fa-solid fa-lock mr-2"></i>
+            <input
+              class="mb-2"
+              type="password"
+              name="password"
+              value=""
+              placeholder="Password"
+            />
+            <br />
+            <i class="fa-solid fa-user mr-2"></i>
+            <input
+              class="mb-2"
+              type="text"
+              name="first"
+              value=""
+              placeholder="First"
+            />
+            <br />
+            <i class="fa-solid fa-user mr-2"></i>
+            <input
+              class="mb-2"
+              type="text"
+              name="last"
+              value=""
+              placeholder="Last"
+            />
+            <br />
+            <i class="fa-brands fa-discord mr-2"></i>
+            <input
+              class="mb-4"
+              type="text"
+              name="discord"
+              value=""
+              placeholder="Discord Username"
+            />
+            <br />
+            <input type="submit" /> <br />
+          </div>
         </form>
       </div>
     </div>
 
-    <div class="split right"></div>
+    <div class="split right d-none d-md-block"></div>
 
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
