@@ -22,9 +22,15 @@
 
 ## 📋 Todo
 
-- Finalize `README.md`.
-- Include `creds.json` in `.gitignore` and remove from commit history.
-- Reset commits + branches after merging.
+- Thomas:
+  - Finalize `README.md`.
+  - Include `creds.json` in `.gitignore` and remove from commit history.
+  - Reset commits + branches after merging.
+  - Consolidate views + partials.
+  - Logs page:
+    - Delete a log by clicking trash icon.
+    - Sorting.
+    - Pagination.
 
 ## 📸 Screenshots
 
@@ -130,8 +136,8 @@ requests.delete("http://localhost:8000/api/log/20")
 
 ## 🚀 Future Plans
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Lorem ipsum dolor sit amet elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-- Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-- Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.
+- Duis aute irure dolor in in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+- Ut enim ad minim veniam, quis nostrud ullamco laboris nisi ut aliquip ex ea commodo consequat.
+- Lorem ipsum dolor sit amet, adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.

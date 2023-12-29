@@ -12,8 +12,7 @@ module.exports = {
         `http://localhost:${process.env.PORT || 8000}/api/log${psidCondition}`
       );
       const json = await response.json();
-      const tableRows = buildTableRows(json);
-      res.render("log", { tableRows });
+      res.render("log", { logs: parseJson(json) });
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");
@@ -21,37 +20,41 @@ module.exports = {
   },
 };
 
-const padWithZero = (value) => (value < 10 ? `0${value}` : value);
-
-const dateFormater = (timestamp) => {
-  const date = new Date(timestamp);
-  const [year, month, day, hours, minutes] = [
-    date.getFullYear(),
-    padWithZero(date.getMonth() + 1),
-    padWithZero(date.getDate()),
-    padWithZero(date.getHours()),
-    padWithZero(date.getMinutes()),
-  ];
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
+const padWithZero = (number) => {
+  return number < 10 ? `0${number}` : number;
 };
 
-const buildTableRows = (data) => {
-  return data
-    .map((row) => {
-      return `<tr>
-        <td><input type="checkbox" value="${row.psid}" /></td>
-        <td>${dateFormater(row.timestamp)}</td>
-        <td>
-          <strong>${row.first} ${row.last}</strong>
-          <br />
-          <span id=psid>${row.psid}</span>
-        </td>
-        <td>
-          <span class="role ${row.role.toLowerCase()}">${row.role}</span>
-        </td>
-        <td>${row.email}</td>
-        <td>${row.discord}</td>
-      </tr>`;
-    })
-    .join("");
+const convertDate = (timestamp) => {
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = date.toLocaleString("default", { month: "short" });
+  const day = padWithZero(date.getDate());
+  return `${day} ${month} ${year}`;
+};
+
+const convertTime = (timestamp) => {
+  const date = new Date(timestamp);
+  const hours = date.getHours();
+  const minutes = padWithZero(date.getMinutes());
+  const ampm = hours >= 12 ? "pm" : "am";
+  const hour = hours % 12 || 12;
+  return `${hour}:${minutes} ${ampm}`;
+};
+
+const parseJson = (json) => {
+  return json.map((row) => {
+    return {
+      id: row.id,
+      avatar:
+        row.image ||
+        "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
+      first: row.first,
+      last: row.last,
+      role: row.role,
+      psid: row.psid,
+      email: row.email,
+      date: convertDate(row.timestamp),
+      time: convertTime(row.timestamp),
+    };
+  });
 };
