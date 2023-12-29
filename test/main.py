@@ -14,7 +14,11 @@ requests.post(
     },
 )
 
-# Log a member
+# Find member with a PSID of 1234567
+r = requests.get("http://localhost:8000/api/members/1234567")
+pprint(r.json())
+
+# Log a member with a PSID of 1234567
 requests.post(
     "http://localhost:8000/api/log",
     data={"psid": 1234567},
@@ -23,3 +27,6 @@ requests.post(
 # Retreive all logs
 r = requests.get("http://localhost:8000/api/log")
 pprint(r.json())
+
+# Delete a log with an ID of 20
+requests.delete("http://localhost:8000/api/log/20")

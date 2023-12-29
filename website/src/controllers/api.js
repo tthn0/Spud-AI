@@ -3,6 +3,19 @@ const creds = require("../../config/creds.json");
 const pool = mysql.createPool(creds);
 
 module.exports = {
+  getLog: async (req, res) => {
+    const psidCondition = req.params.psid ? "WHERE log.psid = ?" : "";
+    const params = req.params.psid ? [req.params.psid] : [];
+    try {
+      const [rows, _] = await query(
+        `SELECT * FROM log INNER JOIN members ON log.psid = members.psid ${psidCondition} ORDER BY timestamp DESC`,
+        params
+      );
+      handleResponse(res, rows, 200);
+    } catch (err) {
+      handleResponse(res, err, 500);
+    }
+  },
   postLog: async (req, res) => {
     try {
       await query("INSERT INTO log (psid, timestamp) VALUES (?, ?)", [
@@ -14,12 +27,20 @@ module.exports = {
       handleResponse(res, err, 500);
     }
   },
-  getLog: async (req, res) => {
-    const psidCondition = req.params.psid ? "WHERE log.psid = ?" : "";
+  deleteLog: async (req, res) => {
+    try {
+      await query("DELETE FROM log WHERE id = ?", [req.params.id]);
+      handleResponse(res, `Deleted log entry ${req.params.id}`, 200);
+    } catch (err) {
+      handleResponse(res, err, 500);
+    }
+  },
+  getMembers: async (req, res) => {
+    const psidCondition = req.params.psid ? "WHERE psid = ?" : "";
     const params = req.params.psid ? [req.params.psid] : [];
     try {
       const [rows, _] = await query(
-        `SELECT * FROM log INNER JOIN members ON log.psid = members.psid ${psidCondition} ORDER BY timestamp DESC`,
+        `SELECT * FROM members ${psidCondition}`,
         params
       );
       handleResponse(res, rows, 200);
@@ -35,19 +56,6 @@ module.exports = {
         [psid, email, password, first, last, discord]
       );
       handleResponse(res, `Registered PSID ${psid}`, 200);
-    } catch (err) {
-      handleResponse(res, err, 500);
-    }
-  },
-  getMembers: async (req, res) => {
-    const psidCondition = req.params.psid ? "WHERE psid = ?" : "";
-    const params = req.params.psid ? [req.params.psid] : [];
-    try {
-      const [rows, _] = await query(
-        `SELECT * FROM members ${psidCondition}`,
-        params
-      );
-      handleResponse(res, rows, 200);
     } catch (err) {
       handleResponse(res, err, 500);
     }
