@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logs</title>
+    <link rel="stylesheet" href="css/global/reset.css" />
+    <link rel="stylesheet" href="css/global/main.css" />
+    <link rel="stylesheet" href="css/pages/logs.css" />
+    <!-- The script below is to import Font Awesome (for icons) -->
+    <script
+      src="https://kit.fontawesome.com/05f03bc0ff.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <main>
+      <section id="controls">
+        <p>Who are you searching for?</p>
+        <p>Order</p>
+        <p>By Column</p>
+        <p>
+          <!-- Empty paragraph for CSS grid to display elements properly -->
+        </p>
+        <div id="search-container">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search by name, role, PSID, etc" />
+        </div>
+        <div id="order-container">
+          <!-- <i
+            class="fa-solid fa-chevron-down"
+            style="outline: 3px solid red"
+          ></i> -->
+          <select id="order">
+            <option value="descending">Descending</option>
+            <option value="ascending">Ascending</option>
+          </select>
+        </div>
+        <div id="column-container">
+          <!-- <i
+            class="fa-solid fa-chevron-down"
+            style="outline: 3px solid red"
+          ></i> -->
+          <select id="column">
+            <option value="name">Name</option>
+            <option value="role">Role</option>
+            <option value="psid">PSID</option>
+            <option value="email">Email</option>
+            <option selected value="timestamp">Timestamp</option>
+          </select>
+        </div>
+        <button id="export">Export JSON</button>
+      </section>
+      <section id="outer-table-container">
+        <div id="inner-table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>PSID</th>
+                <th>Email</th>
+                <th>Timestamp</th>
+                <th>
+                  <!-- Empty to accomodate for trash icons -->
+                </th>
+              </tr>
+            </thead>
+            <tbody data-logs="<%= JSON.stringify(logs) %>">
+              <!-- The data-logs attribute is to pass data from server to client -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section id="pagination">
+        <p id="records">0 Records</p>
+        <div id="pages">
+          <button>Previous</button>
+          <button>Next</button>
+        </div>
+        <div id="record-size">
+          <p>Records per page</p>
+          <div id="records-dropdown-container">
+            <i class="fa-solid fa-caret-down"></i>
+            <select>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="75">75</option>
+              <option disabled>
+                &ensp;&ensp;
+                <!-- These spaces are to allow room for the downward caret -->
+                &ensp;&ensp;
+              </option>
+            </select>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+  <div></div>
+  <script src="js/logs.js"></script>
+</html>

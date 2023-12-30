@@ -3,12 +3,12 @@ const creds = require("../../config/creds.json");
 const pool = mysql.createPool(creds);
 
 module.exports = {
-  getLog: async (req, res) => {
-    const psidCondition = req.params.psid ? "WHERE log.psid = ?" : "";
+  getLogs: async (req, res) => {
+    const psidCondition = req.params.psid ? "WHERE logs.psid = ?" : "";
     const params = req.params.psid ? [req.params.psid] : [];
     try {
       const [rows, _] = await query(
-        `SELECT * FROM log INNER JOIN members ON log.psid = members.psid ${psidCondition} ORDER BY timestamp DESC`,
+        `SELECT * FROM logs INNER JOIN members ON logs.psid = members.psid ${psidCondition} ORDER BY timestamp DESC`,
         params
       );
       handleResponse(res, rows, 200);
@@ -16,9 +16,9 @@ module.exports = {
       handleResponse(res, err, 500);
     }
   },
-  postLog: async (req, res) => {
+  postLogs: async (req, res) => {
     try {
-      await query("INSERT INTO log (psid, timestamp) VALUES (?, ?)", [
+      await query("INSERT INTO logs (psid, timestamp) VALUES (?, ?)", [
         req.body.psid,
         Date.now(),
       ]);
@@ -27,9 +27,9 @@ module.exports = {
       handleResponse(res, err, 500);
     }
   },
-  deleteLog: async (req, res) => {
+  deleteLogs: async (req, res) => {
     try {
-      await query("DELETE FROM log WHERE id = ?", [req.params.id]);
+      await query("DELETE FROM logs WHERE id = ?", [req.params.id]);
       handleResponse(res, `Deleted log entry ${req.params.id}`, 200);
     } catch (err) {
       handleResponse(res, err, 500);
@@ -62,7 +62,14 @@ module.exports = {
   },
 };
 
+/**
+ *
+ * @param {express.express.Response} - res The response object.
+ * @param {Object} data - The data to handle.
+ * @param {number} status - The status code to send.
+ */
 const handleResponse = (res, data, status = 200) => {
+  // If data is an Error object, make the `message` and `stack` properties visible.
   if (data instanceof Error) {
     Object.defineProperties(data, {
       message: {
@@ -77,6 +84,13 @@ const handleResponse = (res, data, status = 200) => {
   res.status(status).send(JSON.stringify(data, null, 2));
 };
 
+/**
+ * @function query
+ * @description Executes a SQL query.
+ * @param {String} sql - SQL query to execute.
+ * @param {Object[]} params - Parameters to pass into the SQL query.
+ * @returns {Promise<[Object[], Object[]]>} - A promise that resolves to an array of rows and fields.
+ */
 const query = async (sql, params = null) => {
   let connection;
   try {
@@ -84,6 +98,6 @@ const query = async (sql, params = null) => {
     const [rows, fields] = await connection.execute(sql, params || []);
     return [rows, fields];
   } finally {
-    if (connection) connection.release(); // Release the connection back to the pool.
+    if (connection) connection.release(); // Release connection back to the pool.
   }
 };

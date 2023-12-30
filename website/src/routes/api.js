@@ -4,14 +4,14 @@ const router = express.Router();
 const {
   getMembers,
   postMembers,
-  deleteLog,
-  getLog,
-  postLog,
+  deleteLogs,
+  getLogs,
+  postLogs,
 } = require("../controllers/api");
 
-router.get("/log/:psid?", getLog);
-router.post("/log", postLog);
-router.delete("/log/:id", deleteLog);
+router.get("/logs/:psid?", getLogs);
+router.post("/logs", postLogs);
+router.delete("/logs/:id", deleteLogs);
 
 router.get("/members/:psid?", getMembers);
 router.post("/members", postMembers);

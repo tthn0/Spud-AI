@@ -38,5 +38,6 @@ app.use("/api/", apiRouter);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  global.SOCKET = `http://localhost:${port}`;
+  console.log(`Server is running on ${global.SOCKET}`);
 });

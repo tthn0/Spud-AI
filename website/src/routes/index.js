@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const { getIndex, getRegister, getLog } = require("../controllers");
+const { getIndex, getRegister, getLogs } = require("../controllers");
 
 router.get("/", getIndex);
 router.get("/register", getRegister);
-router.get("/log/:psid?", getLog);
+router.get("/logs", getLogs);
 
 module.exports = router;
