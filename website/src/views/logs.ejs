@@ -3,10 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/favicon/safari-pinned-tab.svg"
+      color="#5c9dff"
+    />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#000000" />
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
+
     <title>Logs</title>
-    <link rel="stylesheet" href="css/global/reset.css" />
     <link rel="stylesheet" href="css/global/main.css" />
     <link rel="stylesheet" href="css/pages/logs.css" />
+    <script src="js/logs.js"></script>
     <!-- The script below is to import Font Awesome (for icons) -->
     <script
       src="https://kit.fontawesome.com/05f03bc0ff.js"
@@ -24,28 +53,23 @@
         </p>
         <div id="search-container">
           <i class="fas fa-search"></i>
-          <input type="text" placeholder="Search by name, role, PSID, etc" />
+          <input type="text" placeholder="Name, role, PSID, etc." />
         </div>
         <div id="order-container">
-          <!-- <i
-            class="fa-solid fa-chevron-down"
-            style="outline: 3px solid red"
-          ></i> -->
+          <i class="fa-solid fa-chevron-down"></i>
           <select id="order">
-            <option value="descending">Descending</option>
-            <option value="ascending">Ascending</option>
+            <option value="0">Descending</option>
+            <option value="1">Ascending</option>
           </select>
         </div>
         <div id="column-container">
-          <!-- <i
-            class="fa-solid fa-chevron-down"
-            style="outline: 3px solid red"
-          ></i> -->
+          <i class="fa-solid fa-chevron-down"></i>
           <select id="column">
             <option value="name">Name</option>
             <option value="role">Role</option>
             <option value="psid">PSID</option>
             <option value="email">Email</option>
+            <option value="discord">Discord</option>
             <option selected value="timestamp">Timestamp</option>
           </select>
         </div>
@@ -60,6 +84,7 @@
                 <th>Role</th>
                 <th>PSID</th>
                 <th>Email</th>
+                <th>Discord</th>
                 <th>Timestamp</th>
                 <th>
                   <!-- Empty to accomodate for trash icons -->
@@ -97,6 +122,4 @@
       </section>
     </main>
   </body>
-  <div></div>
-  <script src="js/logs.js"></script>
 </html>

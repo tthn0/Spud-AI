@@ -16,17 +16,31 @@
       Winter Break 2023 Project ☃️
   </h1>
   <p>
-    This repository contains the source code for The Ion's automatic facial detection + recognition bot named Spud! As soon as someone walks into the room, our bot will log that into our database, and we're able to see that in real time through a user-friendly interface on our website.
+    This repository contains the source code for The Ion's automatic facial detection + recognition bot named Spud! We created a real-time, automatic facial detection and recognition system. This fusion of web development, AI, and physical computing delivers an innovative solution for seamless member tracking. As soon as someone walks into the room, our bot will log that into our database, and we're able to see that through a user-friendly interface on our website!
   </p>
 </div>
 
 # 📋 Todo
 
 - Thomas's todo list:
-  - JSDoc and organize `public/js/logs.js`.
-  - Update logs page as soon as a new log comes in.
-  - Responsive controls section.
-  - Reponsiveness w/ rems/ems.
+  - Combine getters (test and real inside controllers/api.js for both)
+  - Today:
+    - Put test members and logs in readme.
+    - Implement test logs pdf function.
+    - Fix sorting chevrons.
+    - Update randomizer.
+    - JSDoc and organize `public/js/logs.js`.
+    - Create models with getter.
+  - Logs page:
+    - Delete a log by clicking trash icon.
+      - Are you sure confirmation alert before deleting log.
+    - Pagination / records per page.
+    - Update logs page as soon as a new log comes in.
+  - `/dashboard` allowing you to see both members and logs with a toggle.
+  - Reponsive CSS:
+    - Controls section.
+    - Dark/light mode.
+    - Reponsiveness w/ rems/ems.
   - Mark inputs as reqiured in registration.
   - Finalize `README.md`:
     - Add screenshots.
@@ -34,12 +48,12 @@
     - Delete this todo section once all other todos have been completed.
   - Include **SSH keys** + `creds.json` in `.gitignore` and remove from commit history.
   - Reset commits + branches after merging.
+    - Reset about and tags.
+    - Add social preview.
   - Consolidate views and partials.
-  - Create models with getter.
-  - Logs page:
-    - Delete a log by clicking trash icon.
-    - Sorting.
-    - Pagination.
+  - Compress all images.
+  - Robots.txt
+  - Sitemap
 
 # 📸 Screenshots
 
@@ -102,12 +116,13 @@ npm run start   # Run the website
 
 ### Logs Endpoints
 
-| Method   | Endpoint           | Description                                                                     | Required Payload Data |
-| :------- | :----------------- | :------------------------------------------------------------------------------ | :-------------------- |
-| `GET`    | `/api/logs`        | Retrieve all logs stored.                                                       |                       |
-| `GET`    | `/api/logs/:psid?` | Retrieve all logs stored with a specific PSID.                                  |                       |
-| `POST`   | `/api/logs`        | Insert a log by PSID into database. Note: member must be registered beforehand. | `psid`                |
-| `DELETE` | `/api/logs/:id`    | Delete a log by its log ID (not PSID).                                          |                       |
+| Method   | Endpoint           | Description                                                                                                                                                                | Required Payload Data |
+| :------- | :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------- |
+| `GET`    | `/api/testlogs`    | Retrieve all logs stored along with fake data for testing purposes. The timestamps of the fake data are guarenteed to be older than the oldest timestamp of the real data. |                       |
+| `GET`    | `/api/logs`        | Retrieve all logs stored.                                                                                                                                                  |                       |
+| `GET`    | `/api/logs/:psid?` | Retrieve all logs stored with a specific PSID.                                                                                                                             |                       |
+| `POST`   | `/api/logs`        | Insert a log by PSID into database. Note: member must be registered beforehand.                                                                                            | `psid`                |
+| `DELETE` | `/api/logs/:id`    | Delete a log by its log ID (not PSID).                                                                                                                                     |                       |
 
 <details>
   <summary>
