@@ -1,63 +1,25 @@
 const mysql = require("mysql2/promise");
 const creds = require("../../config/creds.json");
+const io = require("../../app");
+
 const pool = mysql.createPool(creds);
 
 module.exports = {
-  getTestLogs: async (_, res) => {
+  getMembers: async (req, res, testing = false) => {
     try {
-      handleResponse(res, await generateTestLogs(), 200);
-    } catch (err) {
-      handleResponse(res, err, 500);
-    }
-  },
-  getLogs: async (req, res) => {
-    const psidCondition = req.params.psid ? "WHERE logs.psid = ?" : "";
-    const params = req.params.psid ? [req.params.psid] : [];
-    try {
-      const [rows, _] = await query(
-        `SELECT * FROM logs INNER JOIN members ON logs.psid = members.psid ${psidCondition} ORDER BY timestamp DESC`,
-        params
-      );
-      handleResponse(res, rows, 200);
-    } catch (err) {
-      handleResponse(res, err, 500);
-    }
-  },
-  postLogs: async (req, res) => {
-    try {
-      await query("INSERT INTO logs (psid, timestamp) VALUES (?, ?)", [
-        req.body.psid,
-        Date.now(),
-      ]);
-      handleResponse(res, `Logged PSID ${req.body.psid}`, 200);
-    } catch (err) {
-      handleResponse(res, err, 500);
-    }
-  },
-  deleteLogs: async (req, res) => {
-    try {
-      await query("DELETE FROM logs WHERE id = ?", [req.params.id]);
-      handleResponse(res, `Deleted log entry ${req.params.id}`, 200);
-    } catch (err) {
-      handleResponse(res, err, 500);
-    }
-  },
-  getTestMembers: async (_, res) => {
-    try {
-      handleResponse(res, await generateTestMembers(), 200);
-    } catch (err) {
-      handleResponse(res, err, 500);
-    }
-  },
-  getMembers: async (req, res) => {
-    const psidCondition = req.params.psid ? "WHERE psid = ?" : "";
-    const params = req.params.psid ? [req.params.psid] : [];
-    try {
-      const [rows, _] = await query(
-        `SELECT * FROM members ${psidCondition}`,
-        params
-      );
-      handleResponse(res, rows, 200);
+      let members;
+      if (testing) {
+        members = await generateTestMembers();
+      } else {
+        const psidCondition = req.params.psid ? "WHERE psid = ?" : "";
+        const params = req.params.psid ? [req.params.psid] : [];
+        const [rows, _] = await query(
+          `SELECT * FROM members ${psidCondition}`,
+          params
+        );
+        members = rows;
+      }
+      handleResponse(res, members, 200);
     } catch (err) {
       handleResponse(res, err, 500);
     }
@@ -70,6 +32,46 @@ module.exports = {
         [psid, email, password, first, last, discord]
       );
       handleResponse(res, `Registered PSID ${psid}`, 200);
+    } catch (err) {
+      handleResponse(res, err, 500);
+    }
+  },
+  getLogs: async (req, res, testing = false) => {
+    try {
+      let logs;
+      if (testing) {
+        logs = await generateTestLogs();
+      } else {
+        const psidCondition = req.params.psid ? "WHERE logs.psid = ?" : "";
+        const params = req.params.psid ? [req.params.psid] : [];
+        const [rows, _] = await query(
+          `SELECT * FROM logs INNER JOIN members ON logs.psid = members.psid ${psidCondition} ORDER BY timestamp DESC`,
+          params
+        );
+        logs = rows;
+      }
+      handleResponse(res, logs, 200);
+    } catch (err) {
+      handleResponse(res, err, 500);
+    }
+  },
+  postLogs: async (req, res) => {
+    try {
+      await query("INSERT INTO logs (psid, timestamp) VALUES (?, ?)", [
+        req.body.psid,
+        Date.now(),
+      ]);
+      io.emit("logsUpdated");
+      handleResponse(res, `Logged PSID ${req.body.psid}`, 200);
+    } catch (err) {
+      handleResponse(res, err, 500);
+    }
+  },
+  deleteLogs: async (req, res) => {
+    try {
+      await query("DELETE FROM logs WHERE id = ?", [req.params.id]);
+      io.emit("logsUpdated");
+      handleResponse(res, `Deleted log entry ${req.params.id}`, 200);
     } catch (err) {
       handleResponse(res, err, 500);
     }
@@ -132,7 +134,7 @@ const generateTestMembers = async (count = 100) => {
    * @returns {Object} - The randomly selected object.
    * @throws {Error} -
    */
-  function weightedRandomSelection(options) {
+  const weightedRandomSelection = (options) => {
     const totalWeight = options.reduce((sum, option) => sum + option.weight, 0);
     let randomNumber = Math.random() * totalWeight;
     for (const option of options) {
@@ -140,11 +142,11 @@ const generateTestMembers = async (count = 100) => {
       randomNumber -= option.weight;
     }
     return null; // Should never reach but happens when the sum of all weights is <= 0
-  }
+  };
 
   const randomUserAPI = `https://randomuser.me/api?inc=name,email,login,id,picture&results=${count}`;
   const [realMembers, fakeMembers] = await Promise.all([
-    fetch(`${global.SOCKET}/api/members`).then((res) => res.json()),
+    fetch(`${global.ORIGIN_URL}/api/members`).then((res) => res.json()),
     fetch(randomUserAPI)
       .then((res) => res.json())
       .then((res) => res.results),
@@ -160,11 +162,9 @@ const generateTestMembers = async (count = 100) => {
   return [
     ...realMembers,
     ...fakeMembers.map((member) => {
-      // Remove "example.com"
+      // Remove the domain and replace with their last name dot com
       member.email = member.email.split("@")[0];
-      // Replace "." with "@" in email
       member.email = member.email.replace(".", "@");
-      // Append ".com"
       member.email += ".com";
       return {
         psid: Math.floor(Math.random() * 10 ** 7),
@@ -174,7 +174,7 @@ const generateTestMembers = async (count = 100) => {
         first: member.name.first,
         last: member.name.last,
         discord: member.login.username,
-        image: member.picture.large,
+        image: member.picture.thumbnail,
       };
     }),
   ];
@@ -196,7 +196,7 @@ const generateTestMembers = async (count = 100) => {
  * @param {number} maxFreq - The maximum frequency of a single member in the fake data that will be generated.
  * @returns {Object[]} - The new array containing fake data.
  */
-const generateTestLogs = async (maxFreq = 10) => {
+const generateTestLogs = async (maxFreq = 5) => {
   /**
    * @function newArrayFromFrequencies
    * @description Returns a new array with objects duplicated according to their respective frequencies.
@@ -251,8 +251,8 @@ const generateTestLogs = async (maxFreq = 10) => {
 
   // Gather data asynchronously
   const combinedData = await Promise.all([
-    fetch(`${global.SOCKET}/api/testmembers`).then((res) => res.json()),
-    fetch(`${global.SOCKET}/api/logs`).then((res) => res.json()),
+    fetch(`${global.ORIGIN_URL}/api/testmembers`).then((res) => res.json()),
+    fetch(`${global.ORIGIN_URL}/api/logs`).then((res) => res.json()),
   ]);
 
   // Retrieve test members from the combined data
@@ -268,7 +268,7 @@ const generateTestLogs = async (maxFreq = 10) => {
   const repeated = newArrayFromFrequencies(testMembers, frequencies);
 
   // Randomize the timestamps such that they are older than the oldest real timestamp
-  const realLogs = await fetch(`${global.SOCKET}/api/logs`).then((res) =>
+  const realLogs = await fetch(`${global.ORIGIN_URL}/api/logs`).then((res) =>
     res.json()
   );
   const randomizedTimestamped = repeated.map((log) => {

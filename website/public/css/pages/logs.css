@@ -1,25 +1,25 @@
 body {
-  font-family: Poppins, Arial, Helvetica, sans-serif;
   font-size: 15px;
-  color: aliceblue;
+  color: var(--light);
   background: var(--background);
 }
 
 main {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
   width: 90%;
   max-width: 90rem;
-  margin: 5rem auto;
+  margin: 0 auto;
+  padding: 5rem 0;
 }
 
 main section {
   background: var(--darkI);
+  border-radius: 1.5rem;
+  &:not(:first-of-type) {
+    margin-top: 0.5rem;
+  }
 }
 
 #controls {
-  border-radius: 1.5rem;
   display: grid;
   grid-template-columns: 18fr 9fr 9fr 7fr;
   column-gap: 0.5rem;
@@ -49,7 +49,7 @@ main section {
   color: var(--grey);
 }
 
-#controls input {
+#search-container input {
   border-radius: 0.5rem;
   border: none;
   padding: 0.55rem 1rem 0.55rem 2.5rem;
@@ -60,33 +60,28 @@ main section {
     color: var(--grey);
     font-size: 0.9rem;
   }
-  &:focus {
-    outline: none;
+}
+
+.dropdown-container {
+  display: flex;
+  position: relative;
+  &:focus,
+  &:hover {
+    filter: brightness(1.25);
+    transition: 0.1s ease;
   }
 }
 
-#order-container,
-#column-container {
-  display: flex;
-  position: relative;
-}
-
-#controls select {
+.dropdown-container select {
   width: 100%;
   font-size: 0.9rem;
   border-radius: 0.5rem;
-  outline: none;
   background: var(--darkI);
   cursor: pointer;
   padding: 0 0.75rem;
   color: var(--grey);
   border: 3px solid var(--darkIV);
   appearance: none; /* Removes default styles */
-  &:focus,
-  &:hover {
-    filter: brightness(1.25);
-    transition: 0.1s ease;
-  }
 }
 
 #export {
@@ -103,14 +98,14 @@ main section {
 }
 
 #outer-table-container {
-  margin-top: 0.5rem;
   padding: 0.5rem;
-  border-radius: 1.5rem;
+  overflow: auto;
+  max-height: 75vh;
 }
 
 #inner-table-container {
   border-radius: 0.75rem;
-  overflow-x: auto;
+  overflow: auto;
 }
 
 table {
@@ -118,6 +113,18 @@ table {
   text-align: left;
   width: 100%;
   font-weight: 300;
+  th,
+  td {
+    padding: 0.75rem 1rem;
+    &:first-of-type {
+      border-top-left-radius: 0.75rem;
+      border-bottom-left-radius: 0.75rem;
+    }
+    &:last-of-type {
+      border-top-right-radius: 0.75rem;
+      border-bottom-right-radius: 0.75rem;
+    }
+  }
 }
 
 thead tr {
@@ -137,31 +144,18 @@ tbody tr:hover {
   }
 }
 
+tbody tr:nth-child(odd) {
+  background-color: var(--darkI);
+}
+
 tbody tr:nth-child(even) {
   background-color: var(--darkII);
 }
 
-/* This will be applied (thought JS) if a query from the search bar matches any text */
+/* This will be applied (through JS) if a query from the search bar matches any text */
 tbody .highlighted {
-  background: yellow;
-  color: black;
-}
-
-th,
-td {
-  padding: 0.75rem 1rem;
-}
-
-th:first-of-type,
-td:first-of-type {
-  border-top-left-radius: 0.75rem;
-  border-bottom-left-radius: 0.75rem;
-}
-
-th:last-of-type,
-td:last-of-type {
-  border-top-right-radius: 0.75rem;
-  border-bottom-right-radius: 0.75rem;
+  background: var(--accent);
+  color: var(--light);
 }
 
 .user-container {
@@ -240,9 +234,7 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.5rem;
   padding: 1rem 1.5rem;
-  border-radius: 1.5rem;
   position: relative;
 }
 
@@ -251,11 +243,12 @@ img {
   font-size: 0.85rem;
 }
 
+/* TODO */
 #pages {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  display: none; /* TODO */
+  display: none;
 }
 
 #record-size {
@@ -288,10 +281,9 @@ img {
 #record-size select {
   font-size: 0.85rem;
   border-radius: 0.5rem;
-  outline: none;
   background: var(--darkI);
   cursor: pointer;
-  padding: 0.25rem 0.55rem;
+  padding: 0.25rem 1.5rem 0.25rem 0.75rem;
   color: var(--grey);
   border: 3px solid var(--darkIV);
   appearance: none; /* Removes default styles */

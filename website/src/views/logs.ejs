@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+  lang="en"
+  data-origin-url="<%= originUrl %>"
+  data-testing="<%= testing %>"
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,12 +39,13 @@
     <title>Logs</title>
     <link rel="stylesheet" href="css/global/main.css" />
     <link rel="stylesheet" href="css/pages/logs.css" />
+
+    <!-- Importing Socket.io for live updates -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Importing custom JS (must be imported after sockets) -->
     <script src="js/logs.js"></script>
-    <!-- The script below is to import Font Awesome (for icons) -->
-    <script
-      src="https://kit.fontawesome.com/05f03bc0ff.js"
-      crossorigin="anonymous"
-    ></script>
+    <!-- Importing Font Awesome (for icons) -->
+    <script src="https://kit.fontawesome.com/05f03bc0ff.js"></script>
   </head>
   <body>
     <main>
@@ -53,18 +58,22 @@
         </p>
         <div id="search-container">
           <i class="fas fa-search"></i>
-          <input type="text" placeholder="Name, role, PSID, etc." />
+          <input
+            type="text"
+            placeholder="Name, role, PSID, etc."
+            tabindex="1"
+          />
         </div>
-        <div id="order-container">
+        <div class="dropdown-container">
           <i class="fa-solid fa-chevron-down"></i>
-          <select id="order">
+          <select id="order" tabindex="2">
             <option value="0">Descending</option>
             <option value="1">Ascending</option>
           </select>
         </div>
-        <div id="column-container">
+        <div class="dropdown-container">
           <i class="fa-solid fa-chevron-down"></i>
-          <select id="column">
+          <select id="column" tabindex="3">
             <option value="name">Name</option>
             <option value="role">Role</option>
             <option value="psid">PSID</option>
@@ -73,7 +82,7 @@
             <option selected value="timestamp">Timestamp</option>
           </select>
         </div>
-        <button id="export">Export JSON</button>
+        <button id="export" tabindex="4">Export JSON</button>
       </section>
       <section id="outer-table-container">
         <div id="inner-table-container">
@@ -91,9 +100,7 @@
                 </th>
               </tr>
             </thead>
-            <tbody data-logs="<%= JSON.stringify(logs) %>">
-              <!-- The data-logs attribute is to pass data from server to client -->
-            </tbody>
+            <tbody></tbody>
           </table>
         </div>
       </section>
@@ -108,14 +115,8 @@
           <div id="records-dropdown-container">
             <i class="fa-solid fa-caret-down"></i>
             <select>
-              <option value="25">25</option>
               <option value="50">50</option>
-              <option value="75">75</option>
-              <option disabled>
-                &ensp;&ensp;
-                <!-- These spaces are to allow room for the downward caret -->
-                &ensp;&ensp;
-              </option>
+              <option value="100">100</option>
             </select>
           </div>
         </div>

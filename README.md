@@ -23,37 +23,31 @@
 # 📋 Todo
 
 - Thomas's todo list:
-  - Combine getters (test and real inside controllers/api.js for both)
-  - Today:
-    - Put test members and logs in readme.
-    - Implement test logs pdf function.
-    - Fix sorting chevrons.
-    - Update randomizer.
-    - JSDoc and organize `public/js/logs.js`.
-    - Create models with getter.
+  - Add loading skeleton on first loadup.
+  - Add "no results" if table is empty.
   - Logs page:
     - Delete a log by clicking trash icon.
       - Are you sure confirmation alert before deleting log.
     - Pagination / records per page.
-    - Update logs page as soon as a new log comes in.
   - `/dashboard` allowing you to see both members and logs with a toggle.
+  - Create models with getter.
+  - Use JQuery.
   - Reponsive CSS:
     - Controls section.
     - Dark/light mode.
-    - Reponsiveness w/ rems/ems.
-  - Mark inputs as reqiured in registration.
-  - Finalize `README.md`:
-    - Add screenshots.
-    - Add a video demo.
-    - Delete this todo section once all other todos have been completed.
+    - Reponsiveness w/ (r)ems.
+  - Merging Khanh's branch:
+    - Consolidate views and partials.
+    - Mark inputs as reqiured in registration.
   - Include **SSH keys** + `creds.json` in `.gitignore` and remove from commit history.
   - Reset commits + branches after merging.
     - Reset about and tags.
     - Add social preview.
-  - Consolidate views and partials.
   - Compress all images.
-  - Robots.txt
-  - Sitemap
+  - Finalize `README.md`:
+    - Add screenshots.
+    - Add a video demo.
+    - Delete this todo section once all other todos have been completed.
 
 # 📸 Screenshots
 
@@ -81,7 +75,7 @@ We are a group of undergraduates studying at University of Houston (Go Coogs!) t
 
 # 🛠️ Tools & Technologies
 
-- **Web**: Node.JS, Express.JS, Google Cloud Platform.
+- **Web**: Node.JS, Express.JS, Socket.io, Google Cloud Platform.
 - **Database**: MySQL.
 - **AI**: Python, OpenCV.
 - **Physical**: Jetson Nano, ESP32.
@@ -108,21 +102,20 @@ npm run start   # Run the website
 
 ### Members Endpoints
 
-| Method | Endpoint              | Description                                                             | Required Payload Data                                   |
-| :----- | :-------------------- | :---------------------------------------------------------------------- | :------------------------------------------------------ |
-| `GET`  | `/api/members`        | Retrieve all registered members along with their details.               |                                                         |
-| `GET`  | `/api/members/:psid?` | Find a registered member with a specific PSID along with their details. |                                                         |
-| `POST` | `/api/members`        | Register a new member into database.                                    | `psid`, `email`, `password`, `first`, `last`, `discord` |
+| Method | Endpoint              | Description                                                                                                | Required Payload Data                                   |
+| :----- | :-------------------- | :--------------------------------------------------------------------------------------------------------- | :------------------------------------------------------ |
+| `GET`  | `/api/testmembers`    | Retrieve all registered members' details and supplement with additional fake members for testing purposes. |                                                         |
+| `GET`  | `/api/members/:psid?` | Retrieve all registered members' details. Optionally include a PSID to get details of a specific member.   |                                                         |
+| `POST` | `/api/members`        | Register a new member into database.                                                                       | `psid`, `email`, `password`, `first`, `last`, `discord` |
 
 ### Logs Endpoints
 
-| Method   | Endpoint           | Description                                                                                                                                                                | Required Payload Data |
-| :------- | :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------- |
-| `GET`    | `/api/testlogs`    | Retrieve all logs stored along with fake data for testing purposes. The timestamps of the fake data are guarenteed to be older than the oldest timestamp of the real data. |                       |
-| `GET`    | `/api/logs`        | Retrieve all logs stored.                                                                                                                                                  |                       |
-| `GET`    | `/api/logs/:psid?` | Retrieve all logs stored with a specific PSID.                                                                                                                             |                       |
-| `POST`   | `/api/logs`        | Insert a log by PSID into database. Note: member must be registered beforehand.                                                                                            | `psid`                |
-| `DELETE` | `/api/logs/:id`    | Delete a log by its log ID (not PSID).                                                                                                                                     |                       |
+| Method   | Endpoint           | Description                                                                                                                                                              | Required Payload Data |
+| :------- | :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------- |
+| `GET`    | `/api/testlogs`    | Retrieve all logs and supplement with fake logs for testing purposes. Timestamps of the fake logs are guarenteed to be older than the oldest timestamp of the real data. |                       |
+| `GET`    | `/api/logs/:psid?` | Retrieve all logs. Optionally include a PSID to get logs for a specific member.                                                                                          |                       |
+| `POST`   | `/api/logs`        | Insert a log into database by PSID. Member must be registered beforehand.                                                                                                | `psid`                |
+| `DELETE` | `/api/logs/:id`    | Delete a log by its log ID (not PSID).                                                                                                                                   |                       |
 
 <details>
   <summary>
