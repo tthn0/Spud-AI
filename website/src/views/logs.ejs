@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  data-origin-url="<%= originUrl %>"
+  data-testing="<%= testing %>"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/favicon/safari-pinned-tab.svg"
+      color="#5c9dff"
+    />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#000000" />
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <title>Logs</title>
+    <link rel="stylesheet" href="css/global/main.css" />
+    <link rel="stylesheet" href="css/pages/logs.css" />
+
+    <!-- Importing Socket.io for live updates -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Importing custom JS (must be imported after sockets) -->
+    <script src="js/logs.js"></script>
+    <!-- Importing Font Awesome (for icons) -->
+    <script src="https://kit.fontawesome.com/05f03bc0ff.js"></script>
+  </head>
+  <body>
+    <main>
+      <section id="controls">
+        <p>Who are you searching for?</p>
+        <p>Order</p>
+        <p>By Column</p>
+        <p>
+          <!-- Empty paragraph for CSS grid to display elements properly -->
+        </p>
+        <div id="search-container">
+          <i class="fas fa-search"></i>
+          <input
+            type="text"
+            placeholder="Name, role, PSID, etc."
+            tabindex="1"
+          />
+        </div>
+        <div class="dropdown-container">
+          <i class="fa-solid fa-chevron-down"></i>
+          <select id="order" tabindex="2">
+            <option value="0">Descending</option>
+            <option value="1">Ascending</option>
+          </select>
+        </div>
+        <div class="dropdown-container">
+          <i class="fa-solid fa-chevron-down"></i>
+          <select id="column" tabindex="3">
+            <option value="name">Name</option>
+            <option value="role">Role</option>
+            <option value="psid">PSID</option>
+            <option value="email">Email</option>
+            <option value="discord">Discord</option>
+            <option selected value="timestamp">Timestamp</option>
+          </select>
+        </div>
+        <button id="export" tabindex="4">Export JSON</button>
+      </section>
+      <section id="outer-table-container">
+        <div id="inner-table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>PSID</th>
+                <th>Email</th>
+                <th>Discord</th>
+                <th>Timestamp</th>
+                <th>
+                  <!-- Empty to accomodate for trash icons -->
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+      <section id="pagination">
+        <p id="records">0 Records</p>
+        <div id="pages">
+          <button>Previous</button>
+          <button>Next</button>
+        </div>
+        <div id="record-size">
+          <p>Records per page</p>
+          <div id="records-dropdown-container">
+            <i class="fa-solid fa-caret-down"></i>
+            <select>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

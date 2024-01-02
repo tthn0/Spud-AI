@@ -1,33 +1,26 @@
 from pprint import pprint
 import requests
 
-# r = requests.post(
-#     # "http://172.20.32.119:8000/api/members", # Khanh's Local IP
-#     "http://localhost:8000/api/members",
-#     data={
-#         "psid": 1234567,
-#         "email": "test@user.com",
-#         "password": "password",
-#         "first": "Test",
-#         "last": "User",
-#         "discord": "discord#1234",
-#     },
-# )
+r = requests.get("https://randomuser.me/api?inc=name,email,login,id,picture&results=50")
 
-# r = requests.post(
-#     "http://localhost:8000/api/log",
-#     data={"psid": 2204169},
-# )
+pprint(r.json()["results"][0])
 
-r = requests.post(
-    "http://localhost:8000/api/log",
-    data={"psid": 123},
-)
-
-# r = requests.get(
-#     "http://localhost:8000/api/log",
-#     params={"psid": 4294967295},
-# )
-
-
-pprint(r.json())
+schema: dict = {
+    "results": [
+        {
+            "name": {"title": "Miss", "first": "Jennie", "last": "Nichols"},
+            "email": "jennie.nichols@example.com",
+            "login": {
+                "username": "yellowpeacock117",
+                "password": "addison",
+            },
+            "id": {"name": "SSN", "value": "405-88-3636"},
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/men/75.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/men/75.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/men/75.jpg",
+            },
+        }
+    ],
+    "info": {"seed": "56d27f4a53bd5441", "results": 1, "page": 1, "version": "1.4"},
+}

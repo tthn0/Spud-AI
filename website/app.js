@@ -1,21 +1,27 @@
 const express = require("express");
-const path = require("path");
+const { join } = require("path");
+
 const app = express();
 
+// Set up socket.io and export it, so it can be used in other files
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+module.exports = io;
+
 // Set up static assets directory
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(join(__dirname, "public")));
 
 // Set the view engine to EJS
 app.set("view engine", "ejs");
 
 // Specify the custom path for EJS views
-app.set("views", path.join(__dirname, "./src/views"));
+app.set("views", join(__dirname, "./src/views"));
 
 // Middleware for parsing form data
 app.use(express.urlencoded({ extended: true }));
 
 // Middleware for logging incoming requests
-app.use((req, res, next) => {
+app.use((req, _, next) => {
   const formatNumber = (num) => num.toString().padStart(2, "0");
   const now = new Date();
   const hours = formatNumber(now.getHours());
@@ -30,13 +36,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// Load the application logic
-const indexRouter = require("./src/routes");
-const apiRouter = require("./src/routes/api");
-app.use("/", indexRouter);
-app.use("/api/", apiRouter);
+// Load application logic
+app.use("/", require("./src/routes/indexRouter"));
+app.use("/api/", require("./src/routes/apiRouter"));
 
 const port = process.env.PORT || 8000;
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+server.listen(port, () => {
+  global.ORIGIN_URL = `http://localhost:${port}`;
+  console.log(`Server is running on ${global.ORIGIN_URL}`);
 });
