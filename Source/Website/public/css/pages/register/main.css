@@ -1,0 +1,108 @@
+body {
+  color: var(--light);
+  background: var(--background);
+}
+
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+.left {
+  left: 0;
+}
+.right {
+  right: 0;
+  /* background: rgb(50, 50, 200);
+  background: linear-gradient(
+    40deg,
+    rgba(42, 34, 182, 1) 0%,
+    rgba(92, 157, 255, 1) 50%,
+    rgb(140, 186, 255) 100%
+  ); */
+}
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  background-color: var(--darkIV);
+  color: var(--grey);
+  border: none;
+  border-radius: 0.5em;
+  padding: 0.55rem 1rem 0.55rem;
+  width: 280px;
+}
+input[type="submit"] {
+  border: none;
+  background: var(--accent);
+  color: var(--light);
+  border-radius: 0.5em;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 100ms ease-in-out;
+}
+
+input[type="submit"]:hover {
+  background: var(--darkI);
+  color: var(--grey);
+}
+
+.gradient {
+  opacity: 0.8;
+  background: none;
+}
+.gradient:after,
+.gradient:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.gradient:before {
+  background: linear-gradient(
+    135deg,
+    rgba(42, 34, 182, 1) 0%,
+    rgba(92, 157, 255, 1) 50%,
+    rgb(1135, 186, 255) 100%
+  );
+  animation: OpacityAnim 2s ease-in-out 0s infinite alternate;
+}
+.gradient:after {
+  background: linear-gradient(
+    40deg,
+    rgb(140, 186, 255) 0%,
+    rgba(92, 157, 255, 1) 50%,
+    rgba(42, 34, 182, 1) 100%
+  );
+  animation: OpacityAnim var(--anim-duration) ease-in-out
+    calc(-1 * var(--anim-duration)) infinite alternate;
+}
+
+@keyframes OpacityAnim {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .split {
+    height: 100%;
+    width: 100%;
+  }
+}

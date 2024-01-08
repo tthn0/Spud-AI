@@ -1,6 +1,7 @@
 body {
   color: var(--light);
   background: var(--background);
+  font-family: Poppins, Arial, Helvetica, sans-serif;
 }
 
 main {
@@ -135,9 +136,11 @@ table {
   font-weight: 300;
 }
 
-th,
-td {
+th {
   padding: 0.75rem 1rem;
+}
+td {
+  padding: 0.1rem 1rem;
 }
 
 th:first-of-type,
@@ -256,9 +259,11 @@ img {
 }
 
 .psid {
-  text-align: center;
+  margin-top: 15px;
+  align-items: center;
   display: inline-block;
   background: var(--darkIII);
+  color: var(--light);
   padding: 0.35rem 1.6rem;
   border-radius: 0.5rem;
   font-size: 0.9rem;

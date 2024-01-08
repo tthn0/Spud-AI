@@ -1,0 +1,45 @@
+@import url("./main.css");
+
+nav {
+  z-index: 1;
+  font-family: Poppins, Arial, Helvetica, sans-serif;
+}
+.navbar-brand img {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+  width: 30px;
+}
+.navbar-brand {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+.nav-link {
+  font-size: 16px;
+}
+.navbar-custom {
+  background-color: var(--darkI);
+}
+.navbar-custom .navbar-brand {
+  color: var(--light);
+}
+.custom-toggler.navbar-toggler {
+  border-color: var(--gray);
+}
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(240, 248, 255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+a.nav-link {
+  color: var(--offwhite);
+  transition: all 100ms ease-in-out;
+}
+a.nav-link:hover,
+.fa-house:hover,
+.fa-chart-pie:hover,
+.fa-cube:hover,
+.fa-gear:hover {
+  color: var(--accent);
+}
+a.active {
+  color: var(--accent);
+}
