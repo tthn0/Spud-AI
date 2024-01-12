@@ -58,11 +58,11 @@ const parseLogs = (logs) => {
   return logs.map((row) => {
     return {
       // Columns from `logs` table
-      id: row.id,
-      psid: leftPadZeros(row.psid, 7), // PSID's are 7 digits long
+      logId: row.log_id,
       timestamp: row.timestamp,
 
-      // Columns from `members` table
+      // Columns from `users` table
+      userId: leftPadZeros(row.user_id, 5), // Pad user ID with leading zeros, so it's 5 digits long
       role: row.role,
       email: row.email,
       first: row.first,
@@ -91,7 +91,7 @@ const filterLogs = (logs, searchString) => {
       "first",
       "last",
       "role",
-      "psid",
+      "userId",
       "email",
       "discord",
       "date",
@@ -126,6 +126,10 @@ const sortLogs = (logs, column, order) => {
         : ascending
         ? a.last.localeCompare(b.last)
         : -a.last.localeCompare(b.last);
+    }
+    // Special case for user ID column (since naming conventions are different)
+    if (column === "user-id") {
+      return ascending ? a.userId - b.userId : b.userId - a.userId;
     }
     // For other columns, use the default comparison logic
     return ascending ? a[column] > b[column] : a[column] < b[column];
@@ -182,6 +186,17 @@ const highlightTableData = (searchText) => {
  * @returns {string} - A raw HTML string for a table row.
  */
 const buildRow = (log) => {
+  /**
+   * @function escapeHtml
+   * @description Escapes HTML in a string, so it can be safely injected into the DOM.
+   * @param {string} text - The text to escape.
+   * @returns {string} - The escaped text.
+   */
+  const escapeHtml = (text) => {
+    var div = document.createElement("div");
+    div.appendChild(document.createTextNode(text));
+    return div.innerHTML;
+  };
   return `
     <td>
       <div class="user-container">
@@ -189,8 +204,8 @@ const buildRow = (log) => {
           <img src="${log.image}" alt="Headshot" />
         </div>
         <div class="name-container">
-          <div class="searchable first">${log.first}</div>
-          <div class="searchable last">${log.last}</div>
+          <div class="searchable first">${escapeHtml(log.first)}</div>
+          <div class="searchable last">${escapeHtml(log.last)}</div>
         </div>
       </div>
     </td>
@@ -200,16 +215,16 @@ const buildRow = (log) => {
       </span>
     </td>
     <td>
-      <pre class="searchable psid">${log.psid}</pre>
+      <pre class="searchable user-id">${log.userId}</pre>
     </td>
-    <td class="searchable">${log.email}</td>
-    <td class="searchable">${log.discord}</td>
+    <td class="searchable">${escapeHtml(log.email)}</td>
+    <td class="searchable">${escapeHtml(log.discord)}</td>
     <td>
       <div class="searchable date">${log.date}</div>
       <div class="searchable time">${log.time}</div>
     </td>
     <td>
-      <i class="fa-solid fa-trash" data-log-id="${log.id ?? ""}"></i>
+      <i class="fa-solid fa-trash" data-log-id="${log.logId ?? ""}"></i>
     </td>
   `;
 };
@@ -285,7 +300,7 @@ const handleTrashClick = async ({ target }) => {
   const trashClicked = target.classList.contains("fa-trash");
   if (!trashClicked) return;
 
-  // If the log is fake, do nothing
+  // If the log is fake, tell the user they can't delete it
   const logId = target.getAttribute("data-log-id");
   if (!logId) {
     return alert(
@@ -370,6 +385,7 @@ const displayLogs = async () => {
   // Retrieve logs for the first time
   let logs = await getLogs(logsEndpoint);
 
+  // Create an object to bundle all the arguments together
   const argumentBundle = {
     logs,
     tbody,

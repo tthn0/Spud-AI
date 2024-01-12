@@ -25,14 +25,11 @@
     <link
       rel="mask-icon"
       href="/favicon/safari-pinned-tab.svg"
-      color="#5c9dff"
+      color="#93cfef"
     />
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <meta name="msapplication-TileColor" content="#000000" />
+    <meta name="msapplication-TileColor" content="#08141a" />
     <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
-
-    <title>Logs</title>
-    <meta name="description" content="Logs" />
 
     <meta
       name="theme-color"
@@ -44,6 +41,10 @@
       media="(prefers-color-scheme: dark)"
       content="#08141a"
     />
+
+    <title>Logs</title>
+    <meta name="description" content="Logs" />
+
     <link rel="stylesheet" href="/css/global/main.css" />
     <link rel="stylesheet" href="/css/pages/logs/main.css" />
     <link rel="stylesheet" href="/css/pages/logs/media-queries.css" />
@@ -64,7 +65,8 @@
           <i class="fas fa-search"></i>
           <input
             type="text"
-            placeholder="Name, role, PSID, etc."
+            placeholder="Search by any field"
+            autocomplete="off"
             tabindex="1"
           />
         </div>
@@ -73,7 +75,7 @@
           <select id="sort-column" tabindex="2">
             <option value="name">Name</option>
             <option value="role">Role</option>
-            <option value="psid">PSID</option>
+            <option value="user-id">User ID</option>
             <option value="email">Email</option>
             <option value="discord">Discord</option>
             <option selected value="timestamp">Timestamp</option>
@@ -95,7 +97,7 @@
               <tr>
                 <th>Name</th>
                 <th>Role</th>
-                <th>PSID</th>
+                <th>User ID</th>
                 <th>Email</th>
                 <th>Discord</th>
                 <th>Timestamp</th>

@@ -3,7 +3,7 @@
 const express = require("express");
 const { join } = require("path");
 
-const { getMembers, postMembers, getLogs, postLogs, deleteLogs } = require(join(
+const { getUsers, postUsers, getLogs, postLogs, deleteLogs } = require(join(
   __dirname,
   "..",
   "controllers",
@@ -12,13 +12,13 @@ const { getMembers, postMembers, getLogs, postLogs, deleteLogs } = require(join(
 
 const router = express.Router();
 
-router.get("/testmembers", (req, res) => getMembers(req, res, true));
-router.get("/members/:psid?", (req, res) => getMembers(req, res, false));
-router.post("/members", postMembers);
+router.get("/testusers", (req, res) => getUsers(req, res, true));
+router.get("/users", (req, res) => getUsers(req, res, false));
+router.post("/users", postUsers);
 
 router.get("/testlogs", (req, res) => getLogs(req, res, true));
-router.get("/logs/:psid?", (req, res) => getLogs(req, res, false));
-router.post("/logs", postLogs);
-router.delete("/logs/:id", deleteLogs);
+router.get("/logs", (req, res) => getLogs(req, res, false));
+router.post("/logs/:userId", postLogs);
+router.delete("/logs/:logId", deleteLogs);
 
 module.exports = router;

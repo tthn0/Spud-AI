@@ -15,47 +15,43 @@ const pool = mysql.createPool({
 
 module.exports = {
   /**
-   * @function getMembers
-   * @description Gets a list of members from the database.
-   * @param {express.Request} req - The request object.
+   * @function getUsers
+   * @description Gets a list of users from the database.
+   * @param {express.Request} _ - Placeholder for the request object.
    * @param {express.Response} res - The response object.
-   * @param {boolean} [testing=false] - Whether or not to generate fake members (for testing purposes).
+   * @param {boolean} [testing=false] - Whether or not to generate fake users (for testing purposes).
    */
-  getMembers: async (req, res, testing = false) => {
+  getUsers: async (_, res, testing = false) => {
     try {
-      let members;
-      if (testing) {
-        members = await generateTestMembers();
-      } else {
-        const psidCondition = req.params.psid ? "WHERE psid = ?" : "";
-        const params = req.params.psid ? [req.params.psid] : [];
-        const rows = await query(
-          `SELECT * FROM members ${psidCondition}`,
-          params
-        );
-        members = rows;
-      }
-      handleResponse(res, members, 200);
+      let users;
+      if (testing) users = await generateTestUsers();
+      else users = await query(`SELECT * FROM users`);
+      handleResponse(res, users, 200);
     } catch (err) {
       handleResponse(res, err, 500);
     }
   },
 
   /**
-   * @function postMembers
-   * @description Adds a member to the database.
+   * @function postUsers
+   * @description Adds a user to the database.
    * @param {express.Request} req - The request object.
    * @param {express.Response} res - The response object.
    * @returns {Promise<void>} - A promise that resolves when the operation is complete.
    */
-  postMembers: async (req, res) => {
-    const { psid, email, password, first, last, discord } = req.body;
+  postUsers: async (req, res) => {
+    const { email, first, last, discord } = req.body;
     try {
-      await query(
-        "INSERT INTO members (psid, email, password, first, last, discord) VALUES (?, ?, ?, ?, ?, ?)",
-        [psid, email, password, first, last, discord]
+      // @ts-ignore
+      const { insertId: userId } = await query(
+        "INSERT INTO users (email, first, last, discord) VALUES (?, ?, ?, ?)",
+        [email, first, last, discord]
       );
-      handleResponse(res, `Registered PSID ${psid}`, 200);
+      handleResponse(
+        res,
+        `Registration successful. New User ID: ${userId}.`,
+        200
+      );
     } catch (err) {
       handleResponse(res, err, 500);
     }
@@ -64,24 +60,22 @@ module.exports = {
   /**
    * @function getLogs
    * @description Gets a list of logs from the database.
-   * @param {express.Request} req - The request object.
+   * @param {express.Request} _ - Placeholder for the request object.
    * @param {express.Response} res - The response object.
    * @param {boolean} [testing=false] - Whether or not to generate fake logs (for testing purposes).
    * @returns {Promise<void>} - A promise that resolves when the operation is complete.
    */
-  getLogs: async (req, res, testing = false) => {
+  getLogs: async (_, res, testing = false) => {
     try {
       let logs;
       if (testing) {
         logs = await generateTestLogs();
       } else {
-        const psidCondition = req.params.psid ? "WHERE logs.psid = ?" : "";
-        const params = req.params.psid ? [req.params.psid] : [];
-        const rows = await query(
-          `SELECT * FROM logs INNER JOIN members ON logs.psid = members.psid ${psidCondition} ORDER BY timestamp DESC`,
-          params
-        );
-        logs = rows;
+        const sql = `SELECT logs.id AS log_id, logs.timestamp, users.id AS user_id, users.role, users.email, users.first, users.last, users.discord, users.image
+                     FROM logs
+                     INNER JOIN users ON logs.user_id = users.id
+                     ORDER BY logs.timestamp DESC`;
+        logs = await query(sql);
       }
       handleResponse(res, logs, 200);
     } catch (err) {
@@ -98,12 +92,12 @@ module.exports = {
    */
   postLogs: async (req, res) => {
     try {
-      await query("INSERT INTO logs (psid, timestamp) VALUES (?, ?)", [
-        req.body.psid,
+      await query("INSERT INTO logs (user_id, timestamp) VALUES (?, ?)", [
+        req.params.userId,
         Date.now(),
       ]);
       io.emit("logsUpdated");
-      handleResponse(res, `Logged PSID ${req.body.psid}`, 200);
+      handleResponse(res, `Logged user with ID ${req.params.userId}.`, 200);
     } catch (err) {
       handleResponse(res, err, 500);
     }
@@ -118,9 +112,9 @@ module.exports = {
    */
   deleteLogs: async (req, res) => {
     try {
-      await query("DELETE FROM logs WHERE id = ?", [req.params.id]);
+      await query("DELETE FROM logs WHERE id = ?", [req.params.logId]);
       io.emit("logsUpdated");
-      handleResponse(res, `Deleted log entry ${req.params.id}`, 200);
+      handleResponse(res, `Deleted log entry ${req.params.logId}.`, 200);
     } catch (err) {
       handleResponse(res, err, 500);
     }
@@ -160,27 +154,27 @@ const handleResponse = (res, data, status = 200) => {
  * @function query
  * @description Executes a SQL query.
  * @param {String} sql - SQL query to execute.
- * @param {any[] | null} [params=null] - Parameters to pass into the SQL query.
+ * @param {any[] | null} [params=[]] - Parameters to pass into the SQL query.
  * @returns {Promise<QueryResult>} - A promise that resolves to the result of the SQL operation.
  */
-const query = async (sql, params = null) => {
+const query = async (sql, params = []) => {
   let connection;
   try {
     connection = await pool.getConnection();
-    const [rows] = await connection.query(sql, params ?? []);
-    return rows;
+    const [result] = await connection.query(sql, params);
+    return result;
   } finally {
     if (connection) connection.release(); // Release connection back to the pool.
   }
 };
 
 /**
- * @function generateTestMembers
- * @description Generates a list of real members from the database and appends fake members.
- * @param {number} count - The number of fake members to generate after the real members.
- * @returns {Promise<Object[]>} - A promise that resolves to the new array containing real members with appended fake members.
+ * @function generateTestUsers
+ * @description Generates a list of real users from the database and appends fake users.
+ * @param {number} count - The number of fake uers to generate after the real users.
+ * @returns {Promise<Object[]>} - A promise that resolves to the new array containing real users with appended fake users.
  */
-const generateTestMembers = async (count = 100) => {
+const generateTestUsers = async (count = 100) => {
   /**
    * @function weightedRandomSelection
    * @description Selects a random value from an array of objects based on their respective weight probabilities.
@@ -197,12 +191,22 @@ const generateTestMembers = async (count = 100) => {
     return null; // Should never reach but happens when the sum of all weights is <= 0
   };
 
+  /**
+   * @function getRandomInteger
+   * @description Returns a random integer between the specified range (inclusive).
+   * @param {number} min - The minimum value.
+   * @param {number} max - The maximum value.
+   * @returns {number} - The random integer.
+   */
+  const getRandomInteger = (min, max) =>
+    Math.floor(Math.random() * (max - min + 1)) + min;
+
   const randomUserAPI = `https://randomuser.me/api?inc=name,email,login,id,picture&results=${count}`;
-  const [realMembers, fakeMembers] = await Promise.all([
-    fetch(`${global.ORIGIN_URL}/api/members`).then((res) => res.json()),
+  const [realUsers, fakeUsers] = await Promise.all([
+    fetch(`${global.ORIGIN_URL}/api/users`).then((res) => res.json()),
     fetch(randomUserAPI)
       .then((res) => res.json())
-      .then((res) => res.results),
+      .then((json) => json.results),
   ]);
 
   const roles = [
@@ -213,21 +217,20 @@ const generateTestMembers = async (count = 100) => {
   ];
 
   return [
-    ...realMembers,
-    ...fakeMembers.map((member) => {
+    ...realUsers,
+    ...fakeUsers.map((user) => {
       // Remove the domain and replace with their last name dot com
-      member.email = member.email.split("@")[0];
-      member.email = member.email.replace(".", "@");
-      member.email += ".com";
+      user.email = user.email.split("@")[0];
+      user.email = user.email.replace(".", "@");
+      user.email += ".com";
       return {
-        psid: Math.floor(Math.random() * 10 ** 7),
+        id: getRandomInteger(1000, 99999), // Random 4 or 5 digit number
         role: weightedRandomSelection(roles),
-        email: member.email,
-        password: member.login.password,
-        first: member.name.first,
-        last: member.name.last,
-        discord: member.login.username,
-        image: member.picture.medium,
+        email: user.email,
+        first: user.name.first,
+        last: user.name.last,
+        discord: user.login.username,
+        image: user.picture.medium,
       };
     }),
   ];
@@ -237,16 +240,12 @@ const generateTestMembers = async (count = 100) => {
  * @function generateTestLogs
  * @description
  * Generates a list of real logs from the database and appends fake logs. Fake logs may be generated from
- * real members or fake members. The timestamp of the fake logs will be randomized but are guaranteed to be
- * older than the oldest real timestamp.
- *
- * TODO: FIX THIS PART:
- *
- * The count of a single
- * member generated from this function will appear as many times as `maxFreq`. The count of a single member with
- * the lowest frequency will appear as many times as `maxFreq // 2`. All intermediate frequencies will be
- * interpolated to follow a quadratic curve with `maxFreq` as the vertex and `maxFreq // 2` as the minimum frequency.
- * @param {number} maxFreq - The maximum frequency of a single member in the fake data that will be generated.
+ * real users or fake users. The timestamp of the fake logs will be randomized but are guaranteed to be
+ * older than the oldest real timestamp. The maximum count of a single user will appear as many times as
+ * `maxFreq`. The minimum count of a single user will appear as many times as `maxFreq // 2`. All intermediate
+ * frequencies will be interpolated to follow a quadratic curve with `maxFreq` as the vertex and `maxFreq // 2`
+ * as the minimum frequency.
+ * @param {number} maxFreq - The maximum frequency of a single user in the fake data that will be generated.
  * @returns {Promise<Object[]>} - A promise that resolves to the new array containing fake data.
  */
 const generateTestLogs = async (maxFreq = 10) => {
@@ -300,22 +299,40 @@ const generateTestLogs = async (maxFreq = 10) => {
     return baseTimestamp - days * dayInMs - randomInterval;
   };
 
+  /**
+   * @function renameField
+   * @description Returns a new array containing the objects with the specified field renamed.
+   * @param {Object[]} objects - The array of objects to rename a field for.
+   * @param {string} oldKey - The old field key name.
+   * @param {string} newKey - The new field key name.
+   * @returns {Object[]} - A new array containing the renamed objects.
+   */
+  const renameField = (objects, oldKey, newKey) => {
+    return objects.map(({ [oldKey]: oldValue, ...rest }) => ({
+      [newKey]: oldValue,
+      ...rest,
+    }));
+  };
+
   // Gather data concurrently
   const combinedData = await Promise.all([
-    fetch(`${global.ORIGIN_URL}/api/testmembers`).then((res) => res.json()),
+    fetch(`${global.ORIGIN_URL}/api/testusers`).then((res) => res.json()),
     fetch(`${global.ORIGIN_URL}/api/logs`).then((res) => res.json()),
   ]);
-  let testMembers = combinedData[0];
+  let testUsers = combinedData[0];
   const realLogs = combinedData[1];
 
-  // Shuffle test members
-  testMembers.sort(() => Math.random() - 0.5);
+  // Rename `id` to `user_id` for fake logs (to match the real logs and for consistency)
+  testUsers = renameField(testUsers, "id", "user_id");
 
-  // Generate a list of frequencies for each member
-  const frequencies = frequencyArrayGenerator(testMembers.length);
+  // Shuffle test users
+  testUsers.sort(() => Math.random() - 0.5);
 
-  // Repeat each member according to their frequency
-  const fakeLogs = newArrayFromFrequencies(testMembers, frequencies);
+  // Generate a list of frequencies for each user
+  const frequencies = frequencyArrayGenerator(testUsers.length);
+
+  // Repeat each user according to their frequency
+  const fakeLogs = newArrayFromFrequencies(testUsers, frequencies);
 
   // Randomize the timestamps such that they are older than the oldest real timestamp
   const fakeLogsTimestamped = fakeLogs.map((log) => {

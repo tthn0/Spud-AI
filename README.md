@@ -1,34 +1,25 @@
 <div align="center">
-  <picture>
-    <source
-      width=125
-      media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
-      srcset="Images/Logos/Dark.jpg"
-    />
-    <source
-      width=125
-      media="(prefers-color-scheme: dark)"
-      srcset="Images/Logos/Light.jpg"
-    />
-    <img alt="Logo">
-  </picture>
+  <img src="Images/Logos/Houston Robotics Group.png" width=125 alt="Logo">
   <h1>
-      Ion AI 🤖
+      Spud AI
   </h1>
   <p>
-    This repository contains the source code for <a href="https://iondistrict.com">The Ion</a>'s automatic facial detection + recognition bot in the Prototyping Lab named Spud! We created a real-time, automatic facial detection and recognition system. This fusion of web development, AI, and physical computing delivers an innovative solution for seamless member tracking. As soon as someone walks into the room, our bot will log that into our database, and we're able to see that through a user-friendly interface on our website! 
+    This repository contains the source code for <a href="https://houstonroboticsgroup.com">Houston Robotics Group</a>'s real-time, automatic facial detection + recognition bot named Spud! Also featured in this repo is the accompanying dashboard website for our bot. This fusion of web development, AI, and physical computing delivers an innovative solution for seamless member tracking. As soon as someone walks into the room, our bot will log that into our database, and we're able to see that through a user-friendly interface on our website! 
   </p>
 </div>
 
 # 📋 Todo (Temporary)
 
 - Merging Khanh's branch:
-  - Consolidate views and partials.
-  - Mark inputs as reqiured in registration + make sure input types are correct.
+  - Consolidate views/partials:
+    - Navbar partial.
+    - Favicon partial + theme colors partial.
+  - POST `/api/users` for form action.
+  - Remove password & PSID fields.
+  - Mark inputs as reqiured + make sure input types are correct.
 - Finalize repo:
-  - Add social preview.
-  - Add screenshots to `README`.
-  - Add a video demo to `README`.
+  - Add screenshots.
+  - Add a video demo.
   - Compress all images/videos.
   - Delete this todo section once all other todos have been completed.
 
@@ -89,25 +80,25 @@ We are a group of undergraduates studying at University of Houston (Go Coogs!) t
 
 > [!NOTE]
 >
-> - Colon means variable.
-> - Question mark means optional.
+> - A colon indicates a variable field.
+> - A question mark indicates an optional variable.
 
-### Members Endpoints
+### Users Endpoints
 
-| Method | Endpoint              | Description                                                                                                | Required Payload Data                                   |
-| :----- | :-------------------- | :--------------------------------------------------------------------------------------------------------- | :------------------------------------------------------ |
-| `GET`  | `/api/testmembers`    | Retrieve all registered members' details and supplement with additional fake members for testing purposes. |                                                         |
-| `GET`  | `/api/members/:psid?` | Retrieve all registered members' details. Optionally include a PSID to get details of a specific member.   |                                                         |
-| `POST` | `/api/members`        | Register a new member into database.                                                                       | `psid`, `email`, `password`, `first`, `last`, `discord` |
+| Method | Endpoint         | Description                                                                                            | Required Data                       |
+| :----- | :--------------- | :----------------------------------------------------------------------------------------------------- | :---------------------------------- |
+| `GET`  | `/api/testusers` | Retrieve all registered users' details and supplement with additional fake users for testing purposes. |                                     |
+| `GET`  | `/api/users`     | Retrieve all registered users' details.                                                                |                                     |
+| `POST` | `/api/users`     | Register a new user into database.                                                                     | `email`, `first`, `last`, `discord` |
 
 ### Logs Endpoints
 
-| Method   | Endpoint           | Description                                                                                                                                                              | Required Payload Data |
-| :------- | :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------- |
-| `GET`    | `/api/testlogs`    | Retrieve all logs and supplement with fake logs for testing purposes. Timestamps of the fake logs are guarenteed to be older than the oldest timestamp of the real data. |                       |
-| `GET`    | `/api/logs/:psid?` | Retrieve all logs. Optionally include a PSID to get logs for a specific member.                                                                                          |                       |
-| `POST`   | `/api/logs`        | Insert a log into database by PSID. Member must be registered beforehand.                                                                                                | `psid`                |
-| `DELETE` | `/api/logs/:id`    | Delete a log by its log ID (not PSID).                                                                                                                                   |                       |
+| Method   | Endpoint            | Description                                                                                                                                                                      |
+| :------- | :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GET`    | `/api/testlogs`     | Retrieve all logs entries and supplement with fake logs for testing purposes. Timestamps of the fake logs are guarenteed to be older than the oldest timestamp of the real data. |
+| `GET`    | `/api/logs/`        | Retrieve all logs entires.                                                                                                                                                       |
+| `POST`   | `/api/logs/:userId` | Insert a log entry by a user ID (user must be registered beforehand).                                                                                                            |
+| `DELETE` | `/api/logs/:logId`  | Delete a log entry by its log ID (**not** user ID).                                                                                                                              |
 
 <details>
   <summary>
@@ -115,26 +106,30 @@ We are a group of undergraduates studying at University of Houston (Go Coogs!) t
   </summary>
 
 ```bash
-# Register new member
-curl -X POST http://localhost:8000/api/members \
-  -d "psid=1234567" \
-  -d "email=test@user.com" \
-  -d "password=password" \
-  -d "first=Test" \
-  -d "last=User" \
-  -d "discord=test_user"
+# Get test users
+curl -X GET "http://localhost:8000/api/testusers"
 
-# Find member with a PSID of 1234567
-curl http://localhost:8000/api/members/1234567
+# Get all registered users
+curl -X GET "http://localhost:8000/api/users"
 
-# Log a member with a PSID of 1234567
-curl -X POST http://localhost:8000/api/logs -d "psid=1234567"
+# Register a new user
+curl -X POST "http://localhost:8000/api/users" \
+     -d "email=example@email.com" \
+     -d "first=First" \
+     -d "last=Last" \
+     -d "discord=discord"
 
-# Retrieve all logs
-curl http://localhost:8000/api/logs
+# Get test log entries
+curl -X GET "http://localhost:8000/api/testlogs"
 
-# Delete a log with an ID of 20
-curl -X DELETE http://localhost:8000/api/logs/20
+# Get all actual log entries
+curl -X GET "http://localhost:8000/api/logs"
+
+# Log a new entry for the user whose ID is 0
+curl -X POST "http://localhost:8000/api/logs/0"
+
+# Delete a log entry with an ID of 0
+curl -X DELETE "http://localhost:8000/api/logs/0"
 ```
 
 </details>
@@ -145,94 +140,54 @@ curl -X DELETE http://localhost:8000/api/logs/20
   </summary>
 
 ```python
-from pprint import pprint
 import requests
+from pprint import pprint
 
-# Register new member
-requests.post(
-    "http://localhost:8000/api/members",
+BASE_ENDPOINT = "http://localhost:8000/api"
+
+# Get test users
+r = requests.get(f"{BASE_ENDPOINT}/testusers")
+pprint(r.json())
+
+# Get all registered users
+r = requests.get(f"{BASE_ENDPOINT}/users")
+pprint(r.json())
+
+# Register a new user
+r = requests.post(
+    f"{BASE_ENDPOINT}/users",
     data={
-        "psid": 1234567,
-        "email": "test@user.com",
-        "password": "password",
-        "first": "Test",
-        "last": "User",
-        "discord": "test_user",
+        "email": "example@email.com",
+        "first": "First",
+        "last": "Last",
+        "discord": "discord",
     },
 )
-
-# Find member with a PSID of 1234567
-r = requests.get("http://localhost:8000/api/members/1234567")
 pprint(r.json())
 
-# Log a member with a PSID of 1234567
-requests.post(
-    "http://localhost:8000/api/logs",
-    data={"psid": 1234567},
-)
-
-# Retreive all logs
-r = requests.get("http://localhost:8000/api/logs")
+# Get test log entries
+r = requests.get(f"{BASE_ENDPOINT}/testlogs")
 pprint(r.json())
 
-# Delete a log with an ID of 20
-requests.delete("http://localhost:8000/api/logs/20")
-```
+# Get all actual log entries
+r = requests.get(f"{BASE_ENDPOINT}/logs")
+pprint(r.json())
 
-</details>
+# Log a new entry for the user whose ID is 0
+r = requests.post(f"{BASE_ENDPOINT}/logs/{0}")
+pprint(r.json())
 
-<details>
-  <summary>
-    <h3>API Examples (JavaScript)</h3>
-  </summary>
-
-```js
-// Register new member
-fetch("http://localhost:8000/api/members", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
-  body: new URLSearchParams({
-    psid: 1234567,
-    email: "test@user.com",
-    password: "password",
-    first: "Test",
-    last: "User",
-    discord: "test_user",
-  }),
-});
-
-// Find member with a PSID of 1234567
-fetch("http://localhost:8000/api/members/1234567")
-  .then((response) => response.json())
-  .then((data) => console.log(data));
-
-// Log a member with a PSID of 1234567
-fetch("http://localhost:8000/api/logs", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
-  body: new URLSearchParams({
-    psid: 1234567,
-  }),
-});
-
-// Retrieve all logs
-fetch("http://localhost:8000/api/logs")
-  .then((response) => response.json())
-  .then((data) => console.log(data));
-
-// Delete a log with an ID of 20
-fetch("http://localhost:8000/api/logs/20", {
-  method: "DELETE",
-});
+# Delete a log entry with an ID of 0
+r = requests.delete(f"{BASE_ENDPOINT}/logs/{0}")
+pprint(r.json())
 ```
 
 </details>
 
 # 💻 Running Website Locally
+
+> [!IMPORTANT]
+> Before running the commands below, update the `Source/Website/config/example.env` file with proper configurations and rename it to `.env`.
 
 ```bash
 cd Source/Website   # Move into the website directory
@@ -253,12 +208,12 @@ sudo apt install -y npm nginx
 - Install [Node.js](https://nodejs.org/en/download/package-manager).
 
 ```bash
-git clone https://github.com/tthn0/Ion-AI
-cd Ion-AI/Source/Website
+git clone https://github.com/tthn0/Spud-AI
+cd Spud-AI/Source/Website
 npm install
 ```
 
-- Update the `Source/Website/config/.env` file with proper configurations.
+- Update the `Source/Website/config/example.env` file with proper configurations and rename it to `.env`.
 - Update the nginx configuration file:
 
 ```bash

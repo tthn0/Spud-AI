@@ -29,11 +29,10 @@ Insert the following code in the `head` section of your pages:
   href="/favicon/favicon-16x16.png"
 />
 <link rel="manifest" href="/favicon/site.webmanifest" />
-<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5c9dff" />
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#93cfef" />
 <link rel="shortcut icon" href="/favicon/favicon.ico" />
-<meta name="msapplication-TileColor" content="#000000" />
+<meta name="msapplication-TileColor" content="#08141a" />
 <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
-<meta name="theme-color" content="#ffffff" />
 ```
 
 _Optional_ - Check your favicon with the [favicon checker](https://realfavicongenerator.net/favicon_checker)

@@ -20,7 +20,7 @@ const buildSkeletonRow = () => {
       <div class="skeleton role-skeleton"></div>
     </td>
     <td>
-      <div class="skeleton psid-skeleton"></div>
+      <div class="skeleton user-id-skeleton"></div>
     </td>
     <td class="searchable">
       <div class="skeleton email-skeleton"></div>
@@ -71,8 +71,8 @@ const WIDTH_CONFIG = [
     range: [6, 10],
   },
   {
-    class: ".psid-skeleton",
-    range: [7, 7],
+    class: ".user-id-skeleton",
+    range: [6, 6],
   },
   {
     class: ".email-skeleton",

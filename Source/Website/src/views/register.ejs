@@ -7,22 +7,19 @@
   </head>
   <body>
     <h1>Register</h1>
-    <form method="POST" action="api/members">
-      <input type="text" name="psid" value="" placeholder="PSID" />
+    <form method="POST" action="api/users">
+      <input type="email" name="email" value="" placeholder="Email" required />
       <br />
-      <input type="email" name="email" value="" placeholder="Email" />
+      <input type="text" name="first" value="" placeholder="First" required />
       <br />
-      <input type="password" name="password" value="" placeholder="Password" />
-      <br />
-      <input type="text" name="first" value="" placeholder="First" />
-      <br />
-      <input type="text" name="last" value="" placeholder="Last" />
+      <input type="text" name="last" value="" placeholder="Last" required />
       <br />
       <input
         type="text"
         name="discord"
         value=""
         placeholder="Discord Username"
+        required
       />
       <br />
       <input type="submit" /> <br />
