@@ -63,6 +63,7 @@ section:not(:first-of-type) {
   left: 1rem;
   transform: translateY(-50%);
   color: var(--grey);
+  font-size: 0.95rem;
 }
 
 #search-container input {
@@ -72,6 +73,8 @@ section:not(:first-of-type) {
   background: var(--darkIV);
   color: var(--grey);
   width: 100%;
+  font-size: 0.95rem;
+  height: 100%;
 }
 
 #search-container input::placeholder {
@@ -92,14 +95,14 @@ section:not(:first-of-type) {
 
 .dropdown-container select {
   width: 100%;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   border-radius: 0.5rem;
   background: var(--darkI);
   cursor: pointer;
   padding: 0.55rem 0.75rem;
   color: var(--grey);
   border: 3px solid var(--darkIV);
-  appearance: none; /* Removes default styles */
+  appearance: none; /* Removes default browser styles */
 }
 
 #export {
@@ -109,6 +112,7 @@ section:not(:first-of-type) {
   padding: 0.55rem 0.75rem;
   border: none;
   cursor: pointer;
+  font-size: 0.95rem;
 }
 
 #export:hover,
@@ -317,7 +321,7 @@ img {
   padding: 0.25rem 1.5rem 0.25rem 0.75rem;
   color: var(--grey);
   border: 3px solid var(--darkIV);
-  appearance: none; /* Removes default styles */
+  appearance: none; /* Removes default browser styles */
 }
 
 .fa-chevron-down {

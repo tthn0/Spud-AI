@@ -7,7 +7,7 @@
 #
 # Host: XXX.XXX.XXX.XXX (MySQL 8.2.0)
 # Database: winterion
-# Generation Time: 2024-01-12 08:54:27 +0000
+# Generation Time: 2024-01-17 05:27:02 +0000
 # ************************************************************
 
 
@@ -32,7 +32,7 @@ CREATE TABLE `logs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `psid` (`user_id`),
-  CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 LOCK TABLES `logs` WRITE;
@@ -40,14 +40,14 @@ LOCK TABLES `logs` WRITE;
 
 INSERT INTO `logs` (`id`, `user_id`, `timestamp`)
 VALUES
-	(1,0,1703400000000),
-	(2,1,1703526120000),
-	(3,2,1703613780000),
-	(4,3,1703709420000),
-	(5,4,1703804460000),
-	(6,5,1703897520000),
-	(7,6,1703997520000),
-	(8,7,1704515446570);
+	(1,7,1703400000000),
+	(2,5,1703526120000),
+	(3,4,1703613780000),
+	(4,6,1703709420000),
+	(5,3,1703804460000),
+	(6,2,1703897520000),
+	(7,1,1703997520000),
+	(8,0,1704515446570);
 
 /*!40000 ALTER TABLE `logs` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -75,13 +75,13 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` (`id`, `role`, `email`, `first`, `last`, `discord`, `image`)
 VALUES
 	(0,'Officer','spud@the.bot','Spud','The Bot','spud','https://media.licdn.com/dms/image/C4E0BAQHsUc-3FL7jOw/company-logo_200_200/0/1650120403890?e=1713398400&v=beta&t=46Y6K3d9rRoEdSeIB-QfDnI2d9n0xAFP_Eppz7IIIWE'),
-	(1,'Non-Member','thomas@contact.me','Thomas','Nguyen','tthn','https://media.licdn.com/dms/image/D5603AQFqON8WZs_eDA/profile-displayphoto-shrink_200_200/0/1694488901614?e=1709164800&v=beta&t=beg8DIm5cFLHrtU7PiNwqBuqxdZ5VCwZOYALCfSlNxE'),
-	(2,'Officer','diana@nguyen.com','Diana','Nguyen','nobid','https://media.licdn.com/dms/image/D5635AQE6lvcFSUoodw/profile-framedphoto-shrink_400_400/0/1694055533577?e=1705194000&v=beta&t=avhCsRt6zvbBTGiZ1jp_AEaQGQegl3rsOlHga_nZJ6U'),
-	(3,'Member','khanh@nguyen.com','Khanh','Nguyen','sixthsenseriot','https://media.licdn.com/dms/image/D5603AQH--HcvKTgQsA/profile-displayphoto-shrink_200_200/0/1686416300644?e=1709164800&v=beta&t=ZPK70MTpS-7T2ix8a6YnZfO3PHR8JvOR7rwwL4bDzs0'),
-	(4,'Guest','mattew@segura.com','Matthew','Segura','mattura','https://media.licdn.com/dms/image/D5603AQHnYcF3_Kum3Q/profile-displayphoto-shrink_200_200/0/1704347696129?e=1709769600&v=beta&t=ACSC9kGrUsdeUCk9a2Ao6KBJTCVQI4ib21sWHEIiIxE'),
-	(5,'Non-Member','sebastian@rincon.com','Sebastian','Rincon','sebooo5104','https://media.licdn.com/dms/image/D5603AQH8D64-cHvN3Q/profile-displayphoto-shrink_200_200/0/1696471799648?e=1709164800&v=beta&t=RqU_LD8EGtT2zIUUSZHdqF7ZULyGppe5V_WG65ArxuI'),
-	(6,'Guest','sagun@kayastha.com','Sagun','Kayastha','laantaa','https://media.licdn.com/dms/image/D5603AQGOJyki0ZuCYQ/profile-displayphoto-shrink_400_400/0/1674707706481?e=1710374400&v=beta&t=El-I6wl8Ed3xXm1vEzG41XGJdC448Bj0NLn7ldU94iQ'),
-	(7,'Guest','sebastian@dela.espriella','Sebastian','De La Espriella','basic_comrade','https://media.licdn.com/dms/image/D5635AQH9JSH8igmI4w/profile-framedphoto-shrink_400_400/0/1698205424695?e=1705194000&v=beta&t=RWKtQBKB6foOHyJkeN81U6ykUC6BJSkiHJ-Cqk-2f6A'),
+	(1,'Non-Member','thomas@contact.me','Thomas','Nguyen','tom','https://media.licdn.com/dms/image/D5603AQFqON8WZs_eDA/profile-displayphoto-shrink_200_200/0/1694488901614?e=1709164800&v=beta&t=beg8DIm5cFLHrtU7PiNwqBuqxdZ5VCwZOYALCfSlNxE'),
+	(2,'Officer','diana@nguyen.com','Diana','Nguyen','diana','https://media.licdn.com/dms/image/D5635AQE6lvcFSUoodw/profile-framedphoto-shrink_200_200/0/1694055533577?e=1706072400&v=beta&t=RmkhzTof9c6hjRTBo2aOkkxxZNAIQfyHvUljl4H2nw4'),
+	(3,'Member','khanh@nguyen.com','Khanh','Nguyen','khanh','https://media.licdn.com/dms/image/D5603AQH--HcvKTgQsA/profile-displayphoto-shrink_200_200/0/1686416300644?e=1709164800&v=beta&t=ZPK70MTpS-7T2ix8a6YnZfO3PHR8JvOR7rwwL4bDzs0'),
+	(4,'Guest','mattew@segura.com','Matthew','Segura','matt','https://media.licdn.com/dms/image/D5603AQHnYcF3_Kum3Q/profile-displayphoto-shrink_200_200/0/1704347696129?e=1709769600&v=beta&t=ACSC9kGrUsdeUCk9a2Ao6KBJTCVQI4ib21sWHEIiIxE'),
+	(5,'Non-Member','sebastian@rincon.com','Sebastian','Rincon','sebooo','https://media.licdn.com/dms/image/D5603AQH8D64-cHvN3Q/profile-displayphoto-shrink_200_200/0/1696471799648?e=1710979200&v=beta&t=pMfRDZlG2Hp0CC3rtaEtIbyMH-3VcYucDAoHdADLThE'),
+	(6,'Guest','sagun@kayastha.com','Sagun','Kayastha','sagun','https://media.licdn.com/dms/image/D5603AQGOJyki0ZuCYQ/profile-displayphoto-shrink_400_400/0/1674707706481?e=1710374400&v=beta&t=El-I6wl8Ed3xXm1vEzG41XGJdC448Bj0NLn7ldU94iQ'),
+	(7,'Guest','sebastian@espriella.com','Sebastian','De La Espriella','sebas','https://media.licdn.com/dms/image/D5635AQH9JSH8igmI4w/profile-framedphoto-shrink_200_200/0/1698205424695?e=1706072400&v=beta&t=tRTQjJOy0XbQexWNK5HiQfEWhtSSknMsd1ZcQ0RPf00'),
 	(8,'Member','kermit@the.frog','Kermit','The Frog','kermit','https://lumiere-a.akamaihd.net/v1/images/character_themuppets_kermit_b77a431b.jpeg'),
 	(9,'Guest','jesus@heaven.com','Jesus','Christ','jesus','https://img.freepik.com/free-photo/free-photo-good-friday-background-with-jesus-christ-cross_1340-28455.jpg?t=st=1703929712~exp=1703933312~hmac=ef4d0bd836d15aaae9d36708d1cf9ae58571ffefb89423dfb8bffa436bae9295&w=740');
 

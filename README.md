@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="Images/Logos/Houston Robotics Group.png" width=125 alt="Logo">
+  <img src="Images/Logos/SVG/Houston Robotics Group.svg" width=125 alt="Logo">
   <h1>
       Spud AI
   </h1>
@@ -10,6 +10,11 @@
 
 # 📋 Todo (Temporary)
 
+- API authentication:
+  - Add header token check.
+  - Allow all internal requests from server's IP.
+  - Update documentation.
+  - Add site's IP to GitHub's about section.
 - Merging Khanh's branch:
   - Consolidate views/partials:
     - Navbar partial.
@@ -109,7 +114,7 @@ We are a group of undergraduates studying at University of Houston (Go Coogs!) t
 # Get test users
 curl -X GET "http://localhost:8000/api/testusers"
 
-# Get all registered users
+# Get actual registered users
 curl -X GET "http://localhost:8000/api/users"
 
 # Register a new user
@@ -149,7 +154,7 @@ BASE_ENDPOINT = "http://localhost:8000/api"
 r = requests.get(f"{BASE_ENDPOINT}/testusers")
 pprint(r.json())
 
-# Get all registered users
+# Get actual registered users
 r = requests.get(f"{BASE_ENDPOINT}/users")
 pprint(r.json())
 

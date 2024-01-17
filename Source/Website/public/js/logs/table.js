@@ -217,8 +217,16 @@ const buildRow = (log) => {
     <td>
       <pre class="searchable user-id">${log.userId}</pre>
     </td>
-    <td class="searchable">${escapeHtml(log.email)}</td>
-    <td class="searchable">${escapeHtml(log.discord)}</td>
+    <td class="searchable">
+      <pre class="searchable user-id">${escapeHtml(log.email)}</pre>
+    </td>
+    <td class="searchable">
+      <pre class="searchable user-id">${escapeHtml(log.discord)}</pre>
+    </td>
+    <!--
+      <td class="searchable">${escapeHtml(log.email)}</td>
+      <td class="searchable">${escapeHtml(log.discord)}</td>
+    -->
     <td>
       <div class="searchable date">${log.date}</div>
       <div class="searchable time">${log.time}</div>
