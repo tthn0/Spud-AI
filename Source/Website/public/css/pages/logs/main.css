@@ -259,7 +259,7 @@ img {
   color: var(--memberFg);
 }
 
-.user-id {
+.pre {
   text-align: center;
   display: inline-block;
   background: var(--darkIII);

@@ -10,9 +10,13 @@
 
 # 📋 Todo (Temporary)
 
+- Implement logging.
+  - Include IP, requested endpoint, headers, body, params.
 - API authentication:
-  - Add header token check.
-  - Allow all internal requests from server's IP.
+  - Add header token check for sensitive endpoints.
+  - Maybe allow all internal requests from server's IP.
+    - A better way would be to include an auth token for every internal request.
+    - Store tokens in new database table.
   - Update documentation.
   - Add site's IP to GitHub's about section.
 - Merging Khanh's branch:

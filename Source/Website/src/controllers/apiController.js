@@ -71,11 +71,7 @@ module.exports = {
       if (testing) {
         logs = await generateTestLogs();
       } else {
-        const sql = `SELECT logs.id AS log_id, logs.timestamp, users.id AS user_id, users.role, users.email, users.first, users.last, users.discord, users.image
-                     FROM logs
-                     INNER JOIN users ON logs.user_id = users.id
-                     ORDER BY logs.timestamp DESC`;
-        logs = await query(sql);
+        logs = await query("SELECT * FROM logs_view");
       }
       handleResponse(res, logs, 200);
     } catch (err) {
