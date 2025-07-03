@@ -4,41 +4,19 @@
       Spud AI
   </h1>
   <p>
-    This repository contains the source code for <a href="https://houstonroboticsgroup.com">Houston Robotics Group</a>'s real-time, automatic facial detection + recognition bot named Spud! Also featured in this repo is the accompanying dashboard website for our bot. This fusion of web development, AI, and physical computing delivers an innovative solution for seamless member tracking. As soon as someone walks into the room, our bot will log that into our database, and we're able to see that through a user-friendly interface on our website! 
+    This repository contains the source code for <a href="https://houstonroboticsgroup.com">Houston Robotics Group</a>'s real-time, automatic facial detection + recognition bot named Spud! Also featured in this repo is the accompanying dashboard website for our bot. This is a fusion of web development, AI, and robotics creates an innovative solution for seamless member tracking. As soon as someone walks into the room, our bot will log that into our database, and we're able to see that through a user-friendly interface on our website instantly! 
   </p>
 </div>
 
-# 📋 Todo (Temporary)
+<!-- # 📸 Screenshots
 
-- Implement logging.
-  - Include IP, requested endpoint, headers, body, params.
-- API authentication:
-  - Add header token check for sensitive endpoints.
-  - Maybe allow all internal requests from server's IP.
-    - A better way would be to include an auth token for every internal request.
-    - Store tokens in new database table.
-  - Update documentation.
-  - Add site's IP to GitHub's about section.
-- Merging Khanh's branch:
-  - Consolidate views/partials:
-    - Navbar partial.
-    - Favicon partial + theme colors partial.
-  - POST `/api/users` for form action.
-  - Remove password & PSID fields.
-  - Mark inputs as reqiured + make sure input types are correct.
-- Finalize repo:
-  - Add screenshots.
-  - Add a video demo.
-  - Compress all images/videos.
-  - Delete this todo section once all other todos have been completed.
+[Add images of the actual, finalized website here] -->
 
-# 📸 Screenshots
+# 🎬 Temporary Demo
 
-[Add images of the actual, finalized website here]
+This is a quick demo of the UI of the website until we are able to finalize a full demo of the robot, AI face detection, and website working together. Apologies for the GIF quality.
 
-# 🎬 Video Demo
-
-[Add a quick video showing how our project works]
+<img src="Images\Demos\Demo.gif" alt="Temporary Demo GIF">
 
 # 🌀 About
 
@@ -269,3 +247,27 @@ As we look ahead, our team envisions exciting expansions and enhancements for th
 - **Security Enhancements**: Continuously improving security measures to ensure the integrity of member data and our servers.
 
 These plans reflect our ongoing commitment to pushing the boundaries of technology and delivering a robust and cutting-edge solution. Stay tuned for exciting updates as we evolve Spud into an even more powerful and feature-rich robot!
+
+# 📋 Todo (Temporary)
+
+- Implement logging.
+  - Include IP, requested endpoint, headers, body, params.
+- API authentication:
+  - Add header token check for sensitive endpoints.
+  - Maybe allow all internal requests from server's IP.
+    - A better way would be to include an auth token for every internal request.
+    - Store tokens in new database table.
+  - Update documentation.
+  - Add site's IP to GitHub's about section.
+- Merging Khanh's branch:
+  - Consolidate views/partials:
+    - Navbar partial.
+    - Favicon partial + theme colors partial.
+  - POST `/api/users` for form action.
+  - Remove password & PSID fields.
+  - Mark inputs as reqiured + make sure input types are correct.
+- Finalize repo:
+  - Add screenshots.
+  - Add a video demo.
+  - Compress all images/videos.
+  - Delete this todo section once all other todos have been completed.
